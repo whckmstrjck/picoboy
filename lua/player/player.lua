@@ -85,7 +85,7 @@ Player = Actor:new({
       climbing = true
       spr_size = { x = 1, y = 2 }
       y -= 2
-      x = flr(x / 8) * 8 + 1.5
+      x = flr((x + width / 2) / 8) * 8 + 1.5
       vy = 0
       return
     end
@@ -94,8 +94,23 @@ Player = Actor:new({
       spr_size = { x = 1, y = 2 }
       grounded = nil
       climbing = true
+
+      local ladder_x
+
+      for i = 1.5, width, 1.5 do
+        local cel_x = flr((x + i) / 8)
+        local cel_y = flr((y + height) / 8)
+
+        if fget(mget(cel_x, cel_y), 3) then
+          ladder_x = cel_x * 8
+          break
+        end
+      end
+
       y += 3
-      x = flr(x / 8) * 8 + 1.5
+      G.log('Old x: ' .. x)
+      x = ladder_x + 1.5
+      G.log('Climbing at X: ' .. x)
       vy = 0
       return
     end
