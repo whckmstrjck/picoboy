@@ -27,6 +27,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 - [ ] jump buffering
 - [ ] Basic tileset
 - [ ] Fix jump controls, variable jumpheight
+- [ ] Particlessss
 
 ## Done
 
