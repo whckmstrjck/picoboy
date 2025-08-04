@@ -17,7 +17,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 - [ ] Add states to player
 - [ ] Ladders
 
-  - [ ] Approximation of x not reliable, should be recorded on collission
+  - [x] Approximation of x not reliable
   - [x] Add climb up start
   - [x] add climb end
   - [x] Cannon offset climb
