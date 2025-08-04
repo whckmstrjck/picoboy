@@ -14,6 +14,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
+- [ ] Add states to player
 - [ ] Ladders
 
   - [ ] Approximation of x not reliable, should be recorded on collission
@@ -22,12 +23,12 @@ A Mega Man-like code exploration adventure in Pico 8.
   - [x] Cannon offset climb
   - [ ] Correct climb sprite flipping, moving shooting
 
-- [ ] Moving platforms
 - [ ] Coyote time
 - [ ] Jump buffering
+- [ ] Moving platforms
 - [ ] Basic tileset
 - [ ] Fix jump controls, variable jumpheight
-- [ ] Particlessss
+- [ ] Add particle system
 - [ ] Add edge nudge going up
 
 ## Done
