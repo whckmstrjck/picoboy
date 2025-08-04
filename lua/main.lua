@@ -1,5 +1,9 @@
 G = _ENV
 
+function log(str)
+  printh(str, 'log')
+end
+
 function _init()
   player = Player:new()
 end
