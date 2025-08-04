@@ -16,18 +16,19 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 - [ ] Ladders
 
-  - [ ] approximation of x not reliable, should be stored in collission
-  - [x] add climb up start
+  - [ ] Approximation of x not reliable, should be recorded on collission
+  - [x] Add climb up start
   - [x] add climb end
   - [x] Cannon offset climb
-  - [ ] correct climb sprite flipping, moving shooting
+  - [ ] Correct climb sprite flipping, moving shooting
 
 - [ ] Moving platforms
 - [ ] Coyote time
-- [ ] jump buffering
+- [ ] Jump buffering
 - [ ] Basic tileset
 - [ ] Fix jump controls, variable jumpheight
 - [ ] Particlessss
+- [ ] Add edge nudge going up
 
 ## Done
 
