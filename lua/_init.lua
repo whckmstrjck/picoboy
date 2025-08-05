@@ -1,15 +1,6 @@
-G = _ENV
-
-function log(str)
-  printh(str, 'log')
-end
-
 function _init()
+  G = _ENV
   player = Player:new()
-end
-
-function _update60()
-  player:update()
 end
 
 function _draw()
