@@ -28,12 +28,21 @@ function _draw()
   circfill(98, 102, 14, 8)
   circfill(98, 102, 12, 2)
   circfill(98, 102, 10, 15)
-  circfill(98, 102, 8, 7)
+  circfill(98, 102, 8 + sin(t()) * .9, 7)
 
-  print(stat(9), 0, 0, 7)
+  local str = '~~ pICObOY lIVES ~~ 2025 ~~ @TOBIASM.ART ~~'
+
+  for i = 1, #str do
+    print(
+      str[i],
+      128 - t() * 60 % (128 + #str * 4) + i * 4,
+      2 + sin(t() * 3 + i * .1),
+      7 + (i + t() * 14) % 8
+    )
+  end
 
   camera(max(min(player.x - 64, 48), 0), min(player.y - 72, 16))
-
   map()
+
   player:draw()
 end
