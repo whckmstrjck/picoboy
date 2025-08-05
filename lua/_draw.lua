@@ -1,7 +1,7 @@
 function _draw()
-  cls(1)
   camera()
 
+  cls(1)
   fillp(▤)
   rectfill(0, 0, 128, 26, 0)
   rectfill(0, 110, 128, 128, 2)
