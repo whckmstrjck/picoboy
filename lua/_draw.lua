@@ -79,4 +79,5 @@ function _draw()
   map()
 
   player:draw()
+  test_enemy:draw()
 end

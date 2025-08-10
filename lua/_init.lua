@@ -1,17 +1,8 @@
 function _init()
   G = _ENV
   player = Player:new()
-end
-
-function _draw()
-  cls(1)
-  camera()
-  fillp(▤)
-  rectfill(0, 0, 128, 26, 0)
-  fillp()
-  rectfill(0, 0, 128, 20, 0)
-
-  camera(max(min(player.x - 64, 48), 0), player.y - 64)
-  map()
-  player:draw()
+  test_enemy = LilBot:new({
+    x = 100,
+    y = 10
+  })
 end
