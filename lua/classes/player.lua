@@ -52,10 +52,12 @@ Player = Actor:new({
         return
       end
 
-      if btn(⬆️) then
-        y -= climbing_speed
-      elseif btn(⬇️) then
-        y += climbing_speed
+      if shooting == 0 then
+        if btn(⬆️) then
+          y -= climbing_speed
+        elseif btn(⬇️) then
+          y += climbing_speed
+        end
       end
 
       if not fget(mget((x + width / 2) / 8, (y + height) / 8), 3) then
@@ -217,10 +219,16 @@ Player = Actor:new({
   end,
   draw_climbing = function(_ENV)
     local spr_id = 34
+    local climbing_flipped = y / 20 % 1 < 0.5
+
+    if shooting > 0 then
+      climbing_flipped = flipped
+    end
+
     draw_spr(
       _ENV, spr_id, {
         offset_key = 'climbing',
-        flipped = time() * 2 % 1 < 0.5
+        flipped = climbing_flipped
       }
     )
   end,
