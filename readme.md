@@ -16,19 +16,12 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 - [ ] Change collision behaviour to return new values instead of manipulating them directly
 - [ ] Add basic enemy w/ "slime"-like behaviour
-  - [ ] Class
+  - [x] Class
   - [ ] Turn around on edge or solid
   - [ ] Figure out map spawner or other solution
   - [ ] Deal damage to player
   - [ ] Take damage from shots
 - [ ] Add states to player
-- [ ] Ladders
-  - [x] Approximation of x not reliable
-  - [x] Add climb up start
-  - [x] add climb end
-  - [x] Cannon offset climb
-  - [ ] Stop when shooting? Just up?
-  - [ ] Correct climb sprite flipping, moving shootings
 - [ ] Coyote time
 - [ ] Jump buffering
 - [ ] Moving platforms
@@ -39,6 +32,13 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Done
 
+- [x] Ladders
+  - [x] Approximation of x not reliable
+  - [x] Add climb up start
+  - [x] add climb end
+  - [x] Cannon offset climb
+  - [x] Stop when shooting
+  - [x] Correct climb sprite flipping, moving, shooting
 - [x] Player sprite v1
 - [x] Move
 - [x] Jump + gravity
