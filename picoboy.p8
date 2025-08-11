@@ -12,6 +12,8 @@ __lua__
 #include lua/classes/enemies/lil-bot.lua
 
 #include lua/utils/log.lua
+#include lua/utils/math.lua
+#include lua/utils/fx/draw-sky.lua
 
 
 __gfx__
