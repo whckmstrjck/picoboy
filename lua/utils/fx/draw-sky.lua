@@ -6,14 +6,22 @@ draw_smoke_stack = function(pos, w_bottom, w_top, slant)
     local x2 = pos + width / 2 + slant * t
     local color = 2
 
-    if i < 40 then
+    if i < 20 then
       color = 5
-    elseif i < 55 then
+    elseif i < 41 then
+      if i % 3 > .5 then
+        color = 5
+      end
+    elseif i < 56 then
       if i % 2 > .5 then
         color = 5
       end
-    elseif i < 72 then
-      if i % 3 > 1 then
+    elseif i < 74 then
+      if i % 3 < 1 then
+        color = 5
+      end
+    elseif i < 88 then
+      if i % 4 < 1 then
         color = 5
       end
     end
@@ -27,12 +35,10 @@ draw_smoke_stack = function(pos, w_bottom, w_top, slant)
       i,
       color
     )
-    pset(x1 + sway, i, 2)
-    pset(x1 + sway - 1, i, 2)
-    pset(x1 + sway - 2, i, 2)
-    pset(x2 + sway, i, 2)
-    pset(x2 + sway + 1, i, 2)
-    pset(x2 + sway + 2, i, 2)
+
+    local outline_width = 2 * t
+    line(x1 + sway, i, x1 + sway - outline_width, i, 2)
+    line(x2 + sway, i, x2 + sway + outline_width, i, 2)
   end
 end
 
@@ -56,7 +62,8 @@ draw_sky = function()
 
   draw_smoke_stack(100, -5, 30, -200)
   draw_smoke_stack(100, -10, 70, -120)
-  draw_smoke_stack(130, -5, 30, -20)
+  draw_smoke_stack(90, 0, 10, -60)
+  draw_smoke_stack(124, -5, 30, -20)
 
   -- for i = 128, 0, -1 do
   --   line(
