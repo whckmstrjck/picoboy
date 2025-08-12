@@ -199,7 +199,11 @@ Player = Actor:new({
         arm_cannon_spr = 31
       end
 
-      spr(arm_cannon_spr, x + (flipped and -10 or 7), y + 3, 1, 1, flipped)
+      if climbing then
+        spr(arm_cannon_spr, x + (flipped and -9 or 7), y + 3, 1, 1, flipped)
+      else
+        spr(arm_cannon_spr, x + (flipped and -10 or 7), y + 3, 1, 1, flipped)
+      end
     end
   end,
   draw_default = function(_ENV)
