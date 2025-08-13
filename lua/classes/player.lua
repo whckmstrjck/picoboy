@@ -61,6 +61,7 @@ Player = Actor:new({
 
     if new_state == 'falling' then
       if state == 'climbing' then
+        y -= 1 -- fix later, avoids colliding
         spr_size = { x = 2, y = 2 }
       end
     end
@@ -84,7 +85,7 @@ Player = Actor:new({
 
   -- DEFAULT STATE
   state_default = function(_ENV)
-    if btnp(🅾️) and grounded then
+    if btnp(🅾️) then
       if btn(⬇️) and grounded == 'semisolid' then
         y += 2
       else
@@ -92,13 +93,7 @@ Player = Actor:new({
       end
     end
 
-    if btn(⬆️) and fget(mget((x + width / 2) / 8, (y + 2) / 8), 3) then
-      log('mega')
-      set_state(_ENV, 'climbing')
-      return
-    end
-
-    if btn(⬇️) and grounded == 'ladder' then
+    if try_climb_up(_ENV) or try_climb_down(_ENV) then
       set_state(_ENV, 'climbing')
       return
     end
@@ -142,7 +137,11 @@ Player = Actor:new({
 
   -- JUMPING STATE
   state_jumping = function(_ENV)
-    apply_move_and_collide(_ENV)
+    if try_climb_up(_ENV) then
+      set_state(_ENV, 'climbing')
+      return
+    end
+
     if vy >= 0 then
       set_state(_ENV, 'falling')
       if grounded then
@@ -150,14 +149,22 @@ Player = Actor:new({
       else
       end
     end
+
+    apply_move_and_collide(_ENV)
   end,
 
   -- FALLING STATE
   state_falling = function(_ENV)
-    apply_move_and_collide(_ENV)
+    if try_climb_up(_ENV) then
+      set_state(_ENV, 'climbing')
+      return
+    end
+
     if grounded then
       set_state(_ENV, 'default')
     end
+
+    apply_move_and_collide(_ENV)
   end,
 
   apply_move_and_collide = function(_ENV)
@@ -184,6 +191,12 @@ Player = Actor:new({
     if y > 260 then
       y = -100
     end
+  end,
+  try_climb_up = function(_ENV)
+    return btn(⬆️) and fget(mget((x + width / 2) / 8, (y + 2) / 8), 3)
+  end,
+  try_climb_down = function(_ENV)
+    return btn(⬇️) and grounded == 'ladder'
   end,
 
   -- shooting
@@ -289,8 +302,8 @@ Player = Actor:new({
     end
 
     -- draw collider
-    rect(x, y, x + width - 1, y + height - 1, 7)
-    print('state: ' .. state, x - 10, y - 10, 7)
+    -- rect(x, y, x + width - 1, y + height - 1, 7)
+    print(state, x + width / 2 - (#state * 4 / 2), y - 10, 7)
     draw_cannon(_ENV)
   end
 })
