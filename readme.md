@@ -20,7 +20,6 @@ A Mega Man-like code exploration adventure in Pico 8.
   - [ ] Figure out map spawner or other solution
   - [ ] Deal damage to player
   - [ ] Take damage from shots
-- [ ] Add states to player
 - [ ] Coyote time
 - [ ] Jump buffering
 - [ ] Moving platforms
@@ -31,6 +30,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Done
 
+- [x] Add states to player
 - [x] Change collision behaviour to return new values instead of manipulating them directly
 - [x] Ladders
   - [x] Approximation of x not reliable
