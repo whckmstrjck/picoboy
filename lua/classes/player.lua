@@ -1,4 +1,6 @@
 Player = Actor:new({
+  state = 'default', -- default, jumping, falling, climbing
+
   x = 10,
   y = -15,
 
