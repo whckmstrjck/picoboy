@@ -3,6 +3,7 @@ LilBot = Actor:new({
   height = 7,
   spr_offset = { default = { x = -1, y = -1 }, flipped = { x = -1, y = -1 } },
   speed = 0.2,
+  flipped = true,
   update = function(_ENV)
     vy = min(vy + gravity, vy_max)
 
