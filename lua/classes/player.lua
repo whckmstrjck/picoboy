@@ -132,8 +132,8 @@ Player = Actor:new({
       flipped = false
     end
 
-    collide_x(_ENV)
-    collide_y(_ENV)
+    x, vx = collide_x(_ENV)
+    y, vy, grounded = collide_y(_ENV)
 
     x += vx
     y += vy

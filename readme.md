@@ -14,7 +14,6 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
-- [ ] Change collision behaviour to return new values instead of manipulating them directly
 - [ ] Add basic enemy w/ "slime"-like behaviour
   - [x] Class
   - [ ] Turn around on edge or solid
@@ -32,6 +31,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Done
 
+- [x] Change collision behaviour to return new values instead of manipulating them directly
 - [x] Ladders
   - [x] Approximation of x not reliable
   - [x] Add climb up start

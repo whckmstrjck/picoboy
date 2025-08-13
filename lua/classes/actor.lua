@@ -35,24 +35,31 @@ Actor = Class:new({
       x_check += width + vx
     end
 
-    local hit = false
+    local hit = nil
     local cel_x = flr(x_check / 8)
 
     for y_check in all(y_checks) do
       if not hit then
         local cel_y = flr(y_check / 8)
-        hit = fget(mget(cel_x, cel_y), 0)
+        if fget(mget(cel_x, cel_y), 0) then
+          hit = 'solid'
+        end
       end
     end
 
+    local new_x = x
+    local new_vx = vx
+
     if hit then
-      vx = 0
+      new_vx = 0
       if dir < 0 then
-        x = cel_x * 8 + 8
+        new_x = cel_x * 8 + 8
       else
-        x = cel_x * 8 - width
+        new_x = cel_x * 8 - width
       end
     end
+
+    return new_x, new_vx, hit
   end,
   collide_y = function(_ENV)
     local dir = sgn(vy)
@@ -92,17 +99,19 @@ Actor = Class:new({
       end
     end
 
+    local new_y = y
+    local new_vy = vy
+
     if hit then
-      vy = 0
+      new_vy = 0
       if dir < 0 then
-        y = cel_y * 8 + 8
+        new_y = cel_y * 8 + 8
       else
-        y = cel_y * 8 - height
-        grounded = hit
+        new_y = cel_y * 8 - height
       end
-    else
-      grounded = false
     end
+
+    return new_y, new_vy, hit
   end,
 
   -- drawing

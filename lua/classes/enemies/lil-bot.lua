@@ -4,8 +4,8 @@ LilBot = Actor:new({
     vx = flipped and -speed or speed
     vy = min(vy + gravity, vy_max)
 
-    collide_x(_ENV)
-    collide_y(_ENV)
+    x, vx = collide_x(_ENV)
+    y, vy, grounded = collide_y(_ENV)
 
     x += vx
     y += vy
