@@ -1,15 +1,16 @@
 Player = Actor:new({
+  state = 'default', -- default, jumping, falling, climbing
+
   x = 10,
   y = -15,
+  width = 5,
+  height = 11,
 
   speed = .8,
-  jump_force = 2.6,
+  jump_force = 3,
   climbing = false,
   climbing_y = 0,
   climbing_speed = 0.5,
-
-  width = 5,
-  height = 11,
 
   shooting = 0,
   shooting_dur = 26,
@@ -25,110 +26,159 @@ Player = Actor:new({
     return _ENV
   end,
 
+  set_state = function(_ENV, new_state)
+    if state == new_state then return end
+
+    if new_state == 'jumping' then
+      vy = -jump_force
+      grounded = false
+    end
+
+    if new_state == 'climbing' then
+      if grounded == 'ladder' then
+        local ladder_x
+
+        for i = 1.5, width, 1.5 do
+          local cel_x = flr((x + i) / 8)
+          local cel_y = flr((y + height) / 8)
+          if fget(mget(cel_x, cel_y), 3) then
+            ladder_x = cel_x * 8
+            break
+          end
+        end
+
+        y += 3
+        x = ladder_x + 1.5
+      else
+        y -= 2
+        x = flr((x + width / 2) / 8) * 8 + 1.5
+      end
+
+      spr_size = { x = 1, y = 2 }
+      vy = 0
+      grounded = nil
+    end
+
+    if new_state == 'falling' then
+      if state == 'climbing' then
+        y -= 1 -- fix later, avoids colliding
+        spr_size = { x = 2, y = 2 }
+      end
+    end
+
+    state = new_state
+  end,
+
   update = function(_ENV)
-    move(_ENV)
+    if state == 'default' then
+      state_default(_ENV)
+    elseif state == 'climbing' then
+      state_climbing(_ENV)
+    elseif state == 'jumping' then
+      state_jumping(_ENV)
+    elseif state == 'falling' then
+      state_falling(_ENV)
+    end
+
     shoot(_ENV)
   end,
 
-  -- move method
-  move = function(_ENV)
-    if climbing then
-      if btn(⬅️) then
-        if not flipped then
-          shooting = 0
-        end
-        flipped = true
+  -- DEFAULT STATE
+  state_default = function(_ENV)
+    if btnp(🅾️) then
+      if btn(⬇️) and grounded == 'semisolid' then
+        y += 2
+      else
+        set_state(_ENV, 'jumping')
       end
-      if btn(➡️) then
-        if flipped then
-          shooting = 0
-        end
-        flipped = false
-      end
+    end
 
-      if btnp(🅾️) and not btn(⬆️) then
-        climbing = false
-        spr_size = { x = 2, y = 2 }
-        return
-      end
-
-      if shooting == 0 then
-        if btn(⬆️) then
-          y -= climbing_speed
-        elseif btn(⬇️) then
-          y += climbing_speed
-        end
-      end
-
-      if not fget(mget((x + width / 2) / 8, (y + height) / 8), 3) then
-        climbing = false
-        spr_size = { x = 2, y = 2 }
-        if flipped then
-          x += 1
-        end
-      end
-
+    if try_climb_up(_ENV) or try_climb_down(_ENV) then
+      set_state(_ENV, 'climbing')
       return
     end
+
+    apply_move_and_collide(_ENV)
+  end,
+
+  -- CLIMBING STATE
+  state_climbing = function(_ENV)
+    if btn(⬅️) then
+      if not flipped then
+        shooting = 0
+      end
+      flipped = true
+    end
+
+    if btn(➡️) then
+      if flipped then
+        shooting = 0
+      end
+      flipped = false
+    end
+
+    if shooting == 0 then
+      if btn(⬆️) then
+        y -= climbing_speed
+      elseif btn(⬇️) then
+        y += climbing_speed
+      end
+    end
+
+    if btnp(🅾️) and not btn(⬆️) then
+      set_state(_ENV, 'falling')
+      return
+    end
+
+    if not fget(mget((x + width / 2) / 8, (y + height - 1) / 8), 3) then
+      set_state(_ENV, 'falling')
+    end
+  end,
+
+  -- JUMPING STATE
+  state_jumping = function(_ENV)
+    if try_climb_up(_ENV) then
+      set_state(_ENV, 'climbing')
+      return
+    end
+
+    if vy >= 0 then
+      set_state(_ENV, 'falling')
+      if grounded then
+        set_state(_ENV, 'default')
+      else
+      end
+    end
+
+    apply_move_and_collide(_ENV)
+  end,
+
+  -- FALLING STATE
+  state_falling = function(_ENV)
+    if try_climb_up(_ENV) then
+      set_state(_ENV, 'climbing')
+      return
+    end
+
+    if grounded then
+      set_state(_ENV, 'default')
+    end
+
+    apply_move_and_collide(_ENV)
+  end,
+
+  apply_move_and_collide = function(_ENV)
+    vx = 0
 
     vy = min(vy + gravity, vy_max)
 
-    if btnp(🅾️) and grounded then
-      if btn(⬇️) and grounded == 'semisolid' then
-        -- jump through semisolid
-        y += 2
-      else
-        vy = -jump_force
-        grounded = false
-      end
-    end
-
-    if btn(⬆️) and fget(mget((x + width / 2) / 8, (y + 2) / 8), 3) then
-      climbing = true
-      spr_size = { x = 1, y = 2 }
-      y -= 2
-      x = flr((x + width / 2) / 8) * 8 + 1.5
-      vy = 0
-      return
-    end
-
-    if btn(⬇️) and grounded == 'ladder' then
-      spr_size = { x = 1, y = 2 }
-      grounded = nil
-      climbing = true
-
-      local ladder_x
-
-      for i = 1.5, width, 1.5 do
-        local cel_x = flr((x + i) / 8)
-        local cel_y = flr((y + height) / 8)
-
-        if fget(mget(cel_x, cel_y), 3) then
-          ladder_x = cel_x * 8
-          break
-        end
-      end
-
-      y += 3
-      G.log('Old x: ' .. x)
-      x = ladder_x + 1.5
-      G.log('Climbing at X: ' .. x)
-      vy = 0
-      return
-    end
-
-    vx = 0
-    walking = false
-
     if btn(⬅️) then
       vx = -speed
-      walking = true
       flipped = true
     end
 
     if btn(➡️) then
       vx = speed
-      walking = true
       flipped = false
     end
 
@@ -141,6 +191,12 @@ Player = Actor:new({
     if y > 260 then
       y = -100
     end
+  end,
+  try_climb_up = function(_ENV)
+    return btn(⬆️) and fget(mget((x + width / 2) / 8, (y + 2) / 8), 3)
+  end,
+  try_climb_down = function(_ENV)
+    return btn(⬇️) and grounded == 'ladder'
   end,
 
   -- shooting
@@ -215,7 +271,7 @@ Player = Actor:new({
       else
         spr_id = 12
       end
-    elseif walking then
+    else
       spr_id += flr((t() * 10 % 3 + 1)) * 2
     end
 
@@ -239,13 +295,15 @@ Player = Actor:new({
   draw = function(_ENV)
     draw_shots(_ENV)
 
-    if climbing then
+    if state == 'climbing' then
       draw_climbing(_ENV)
     else
       draw_default(_ENV)
     end
-    -- rect(x, y, x + width - 1, y + height - 1, 7)
 
+    -- draw collider
+    -- rect(x, y, x + width - 1, y + height - 1, 7)
+    print(state, x + width / 2 - (#state * 4 / 2), y - 10, 7)
     draw_cannon(_ENV)
   end
 })

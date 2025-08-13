@@ -111,7 +111,11 @@ Actor = Class:new({
       end
     end
 
-    return new_y, new_vy, hit
+    if vy > 0 then
+      return new_y, new_vy, hit
+    else
+      return new_y, new_vy, nil
+    end
   end,
 
   -- drawing

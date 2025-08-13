@@ -16,7 +16,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 - [ ] Add basic enemy w/ "slime"-like behaviour
   - [x] Class
-  - [ ] Turn around on edge or solid
+  - [x] Turn around on edge or solid
   - [ ] Figure out map spawner or other solution
   - [ ] Deal damage to player
   - [ ] Take damage from shots

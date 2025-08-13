@@ -1,3 +1,10 @@
+draw_sun = function(x, y)
+  circfill(x, y, 14, 8)
+  circfill(x, y, 12, 2)
+  circfill(x, y, 10, 15)
+  circfill(x, y, 8 + sin(t()) * .9, 7)
+end
+
 draw_smoke_stack = function(pos, w_bottom, w_top, slant)
   for i = 128, 0, -1 do
     local t = (128 - i) / 128
@@ -63,7 +70,8 @@ draw_sky = function()
   draw_smoke_stack(100, -5, 30, -200)
   draw_smoke_stack(100, -10, 70, -120)
   draw_smoke_stack(90, 0, 10, -60)
-  draw_smoke_stack(124, -5, 30, -20)
+  draw_smoke_stack(114, -5, 30, -20)
+  draw_smoke_stack(116, -5, 5, 10)
 
   -- for i = 128, 0, -1 do
   --   line(
@@ -106,8 +114,5 @@ draw_sky = function()
   rectfill(0, 118, 128, 128, 8)
 
   -- sun
-  circfill(98, 102, 14, 8)
-  circfill(98, 102, 12, 2)
-  circfill(98, 102, 10, 15)
-  circfill(98, 102, 8 + sin(t()) * .9, 7)
+  draw_sun(92, 102)
 end
