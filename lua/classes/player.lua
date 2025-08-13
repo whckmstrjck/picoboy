@@ -244,6 +244,8 @@ Player = Actor:new({
     else
       draw_default(_ENV)
     end
+
+    -- draw collider
     -- rect(x, y, x + width - 1, y + height - 1, 7)
 
     draw_cannon(_ENV)
