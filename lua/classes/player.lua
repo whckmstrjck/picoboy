@@ -99,6 +99,10 @@ Player = Actor:new({
     end
 
     apply_move_and_collide(_ENV)
+
+    if vy > 0 then
+      set_state(_ENV, 'falling')
+    end
   end,
 
   -- CLIMBING STATE
@@ -272,7 +276,11 @@ Player = Actor:new({
         spr_id = 12
       end
     else
-      spr_id += flr((t() * 10 % 3 + 1)) * 2
+      if vx != 0 then
+        spr_id += flr((t() * 10 % 3 + 1)) * 2
+      else
+        spr_id = 2
+      end
     end
 
     draw_spr(_ENV, spr_id)
