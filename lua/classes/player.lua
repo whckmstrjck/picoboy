@@ -19,7 +19,7 @@ Player = Actor:new({
   shots_limit = 3,
 
   spr_size = { x = 2, y = 2 },
-  spr_offset = { default = { x = -3, y = -1 }, flipped = { x = -8, y = -1 } },
+  spr_offset = { default = { x = -4, y = -1 }, flipped = { x = -7, y = -1 } },
 
   new = function(_ENV)
     spr_offset.climbing = { x = -1.5, y = -1 }
@@ -262,11 +262,7 @@ Player = Actor:new({
         arm_cannon_spr = 31
       end
 
-      if climbing then
-        spr(arm_cannon_spr, x + (flipped and -9 or 7), y + 3, 1, 1, flipped)
-      else
-        spr(arm_cannon_spr, x + (flipped and -10 or 7), y + 3, 1, 1, flipped)
-      end
+      spr(arm_cannon_spr, x + (flipped and -9 or 6.5), y + 3, 1, 1, flipped)
     end
   end,
   draw_default = function(_ENV)
