@@ -88,7 +88,7 @@ Player = Actor:new({
   state_default = function(_ENV)
     if btnp(🅾️) then
       if btn(⬇️) and grounded == 'semisolid' then
-        y += 2
+        y += 1
       else
         set_state(_ENV, 'jumping')
       end
