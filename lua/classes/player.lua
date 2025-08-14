@@ -262,7 +262,12 @@ Player = Actor:new({
         arm_cannon_spr = 31
       end
 
-      spr(arm_cannon_spr, x + (flipped and -9 or 6.5), y + 3, 1, 1, flipped)
+      local spr_x = x + (flipped and -9 or 6)
+      if not flipped and state == 'climbing' then
+        spr_x += 1
+      end
+      local spr_y = y + 3
+      spr(arm_cannon_spr, spr_x, spr_y, 1, 1, flipped)
     end
   end,
   draw_default = function(_ENV)
@@ -286,7 +291,7 @@ Player = Actor:new({
   end,
   draw_climbing = function(_ENV)
     local spr_id = 34
-    local climbing_flipped = y / 20 % 1 < 0.5
+    local climbing_flipped = y / 12 % 1 < 0.5
 
     if shooting > 0 then
       climbing_flipped = flipped
@@ -316,6 +321,6 @@ Player = Actor:new({
     if not enabled then return end
     -- draw collider
     rect(x, y, x + width - 1, y + height - 1, 7)
-    print(state, x + width / 2 - (#state * 4 / 2), y - 10, 7)
+    print(state, x - 10, y - 10, 7)
   end
 })
