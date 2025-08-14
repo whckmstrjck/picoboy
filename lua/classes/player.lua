@@ -60,6 +60,7 @@ Player = Actor:new({
     end
 
     if new_state == 'falling' then
+      vy = 0
       if state == 'climbing' then
         y -= 1 -- fix later, avoids colliding
         spr_size = { x = 2, y = 2 }
@@ -146,11 +147,11 @@ Player = Actor:new({
       return
     end
 
-    if vy >= 0 then
-      set_state(_ENV, 'falling')
+    if vy >= 0 or not btn(🅾️) then
       if grounded then
         set_state(_ENV, 'default')
       else
+        set_state(_ENV, 'falling')
       end
     end
 
@@ -195,6 +196,8 @@ Player = Actor:new({
     if y > 260 then
       y = -100
     end
+  end,
+  try_jump = function(_ENV)
   end,
   try_climb_up = function(_ENV)
     return btn(⬆️) and fget(mget((x + width / 2) / 8, (y + 2) / 8), 3)
