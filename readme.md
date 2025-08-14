@@ -14,12 +14,12 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
-- [ ] Add basic enemy w/ "slime"-like behaviour
+- [ ] Add basic enemy w/ goomba-like behaviour
   - [x] Class
   - [x] Turn around on edge or solid
-  - [ ] Figure out map spawner or other solution
   - [ ] Deal damage to player
   - [ ] Take damage from shots
+  - [ ] Destroy on 0 hp
 - [ ] Coyote time
 - [ ] Jump buffering
 - [ ] Moving platforms
