@@ -312,9 +312,14 @@ Player = Actor:new({
       draw_default(_ENV)
     end
 
-    -- draw collider
-    -- rect(x, y, x + width - 1, y + height - 1, 7)
-    print(state, x + width / 2 - (#state * 4 / 2), y - 10, 7)
     draw_cannon(_ENV)
+
+    draw_debug(_ENV, false)
+  end,
+  draw_debug = function(_ENV, enabled)
+    if not enabled then return end
+    -- draw collider
+    rect(x, y, x + width - 1, y + height - 1, 7)
+    print(state, x + width / 2 - (#state * 4 / 2), y - 10, 7)
   end
 })
