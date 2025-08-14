@@ -9,7 +9,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 ⬅️ Move left  
 ➡️ Move right
 
-🅾️ Jump / Let go of ladders  
+🅾️ Jump (hold to jump higher) / Let go of ladders  
 ❎ Shoot
 
 ## Todo
@@ -24,12 +24,13 @@ A Mega Man-like code exploration adventure in Pico 8.
 - [ ] Jump buffering
 - [ ] Moving platforms
 - [ ] Basic tileset
-- [ ] Fix jump controls, variable jumpheight
 - [ ] Add particle system
 - [ ] Add edge nudge going up
+- [ ] Fix "turbo-fire" on jump/shoot?
 
 ## Done
 
+- [x] Fix jump controls, variable jumpheight
 - [x] Add states to player
 - [x] Change collision behaviour to return new values instead of manipulating them directly
 - [x] Ladders
