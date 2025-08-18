@@ -26,6 +26,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 - [ ] Basic tileset
 - [ ] Add particle system
 - [ ] Add edge nudge going up
+- [ ] Add nudge "climbing" up
 - [ ] Fix "turbo-fire" on jump/shoot?
 
 ## Done

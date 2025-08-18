@@ -147,6 +147,8 @@ Player = Actor:new({
       return
     end
 
+    apply_move_and_collide(_ENV)
+
     if vy >= 0 or not btn(🅾️) then
       if grounded then
         set_state(_ENV, 'default')
@@ -154,8 +156,6 @@ Player = Actor:new({
         set_state(_ENV, 'falling')
       end
     end
-
-    apply_move_and_collide(_ENV)
   end,
 
   -- FALLING STATE
