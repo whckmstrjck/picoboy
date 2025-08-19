@@ -12,6 +12,11 @@ Player = Actor:new({
   climbing_y = 0,
   climbing_speed = 0.5,
 
+  gravity = .14,
+  grounded = nil, -- nil, solid, semisolid, ladder
+  ground_keep = 0,
+  ground_keep_frames = 5,
+
   shooting = 0,
   shooting_dur = 26,
   shots = {},
@@ -60,7 +65,12 @@ Player = Actor:new({
     end
 
     if new_state == 'falling' then
-      vy = 0
+      vy = 1.2
+
+      if state == 'default' then
+        ground_keep = ground_keep_frames
+      end
+
       if state == 'climbing' then
         y -= 1 -- fix later, avoids colliding
         spr_size = { x = 2, y = 2 }
@@ -86,6 +96,11 @@ Player = Actor:new({
 
   -- DEFAULT STATE
   state_default = function(_ENV)
+    if vy > 0 then
+      set_state(_ENV, 'falling')
+      return
+    end
+
     if btnp(🅾️) then
       if btn(⬇️) and grounded == 'semisolid' then
         y += 1
@@ -100,10 +115,6 @@ Player = Actor:new({
     end
 
     apply_move_and_collide(_ENV)
-
-    if vy > 0 then
-      set_state(_ENV, 'falling')
-    end
   end,
 
   -- CLIMBING STATE
@@ -147,8 +158,6 @@ Player = Actor:new({
       return
     end
 
-    apply_move_and_collide(_ENV)
-
     if vy >= 0 or not btn(🅾️) then
       if grounded then
         set_state(_ENV, 'default')
@@ -156,10 +165,14 @@ Player = Actor:new({
         set_state(_ENV, 'falling')
       end
     end
+
+    apply_move_and_collide(_ENV)
   end,
 
   -- FALLING STATE
   state_falling = function(_ENV)
+    ground_keep = max(ground_keep - 1, 0)
+
     if try_climb_up(_ENV) then
       set_state(_ENV, 'climbing')
       return
@@ -187,8 +200,14 @@ Player = Actor:new({
       flipped = false
     end
 
+    local new_grounded = nil
+
     x, vx = collide_x(_ENV)
-    y, vy, grounded = collide_y(_ENV)
+    y, vy, new_grounded = collide_y(_ENV)
+
+    if ground_keep == 0 then
+      grounded = new_grounded
+    end
 
     x += vx
     y += vy
@@ -315,12 +334,31 @@ Player = Actor:new({
 
     draw_cannon(_ENV)
 
-    draw_debug(_ENV, false)
+    draw_debug(_ENV)
   end,
-  draw_debug = function(_ENV, enabled)
-    if not enabled then return end
+
+
+  draw_debug = function(_ENV)
+    local pos_x = x - 10
+    local pos_y = y - 10
+
     -- draw collider
+    rectfill(x, y, x + width - 1, y + height - 1, 8)
     rect(x, y, x + width - 1, y + height - 1, 7)
-    print(state, x - 10, y - 10, 7)
+
+    local grounded_str = '…'
+    if grounded == 'ladder' then
+      grounded_str = "▤"
+    elseif grounded == 'semisolid' then
+      grounded_str = "▒"
+    elseif grounded then
+      grounded_str = '█'
+    end
+
+    grounded_str = grounded_str .. ' (' .. ground_keep .. ')'
+
+    rectfill(pos_x - 12, pos_y - 14, pos_x + 34, pos_y, 8)
+    rect(pos_x - 12, pos_y - 14, pos_x + 34, pos_y, 7)
+    print('g: ' .. grounded_str .. '\ns: ' .. state, pos_x - 10, pos_y - 12, 7)
   end
 })
