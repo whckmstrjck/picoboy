@@ -1,5 +1,5 @@
 Player = Actor:new({
-  state = 'default', -- default, jumping, falling, climbing
+  state = 'falling', -- default, dropping, jumping, falling, climbing
 
   x = 10,
   y = -15,
@@ -13,9 +13,9 @@ Player = Actor:new({
   climbing_speed = 0.5,
 
   gravity = .14,
-  grounded = nil, -- nil, solid, semisolid, ladder
-  ground_keep = 0,
-  ground_keep_frames = 5,
+  grounded = nil, -- nil, solid, semisolid, ladder, coyote
+  coyote_time = 0,
+  coyote_frame_count = 3,
 
   shooting = 0,
   shooting_dur = 26,
@@ -34,11 +34,12 @@ Player = Actor:new({
   set_state = function(_ENV, new_state)
     if state == new_state then return end
 
-    if new_state == 'jumping' then
-      vy = -jump_force
-      grounded = false
+    -- DEFAULT
+    if new_state == 'default' then
+      log('SET_DEFAULT')
     end
 
+    -- CLIMBING
     if new_state == 'climbing' then
       if grounded == 'ladder' then
         local ladder_x
@@ -64,11 +65,27 @@ Player = Actor:new({
       grounded = nil
     end
 
+    -- DROPPING
+    if new_state == 'dropping' then
+      grounded = nil
+      y += 1
+    end
+
+    -- JUMPING
+    if new_state == 'jumping' then
+      coyote_time = 0
+      vy = -jump_force
+      grounded = false
+    end
+
+    -- FALLING
     if new_state == 'falling' then
       vy = 1.2
 
+      log(state)
       if state == 'default' then
-        ground_keep = ground_keep_frames
+        grounded = 'coyote'
+        coyote_time = coyote_frame_count
       end
 
       if state == 'climbing' then
@@ -83,6 +100,8 @@ Player = Actor:new({
   update = function(_ENV)
     if state == 'default' then
       state_default(_ENV)
+    elseif state == 'dropping' then
+      state_dropping(_ENV)
     elseif state == 'climbing' then
       state_climbing(_ENV)
     elseif state == 'jumping' then
@@ -96,17 +115,18 @@ Player = Actor:new({
 
   -- DEFAULT STATE
   state_default = function(_ENV)
-    if vy > 0 then
+    if not grounded then
       set_state(_ENV, 'falling')
       return
     end
 
     if btnp(🅾️) then
       if btn(⬇️) and grounded == 'semisolid' then
-        y += 1
+        set_state(_ENV, 'dropping')
       else
         set_state(_ENV, 'jumping')
       end
+      return
     end
 
     if try_climb_up(_ENV) or try_climb_down(_ENV) then
@@ -115,6 +135,11 @@ Player = Actor:new({
     end
 
     apply_move_and_collide(_ENV)
+  end,
+
+  -- DROPPING STATE
+  state_dropping = function(_ENV)
+    set_state(_ENV, 'falling')
   end,
 
   -- CLIMBING STATE
@@ -159,11 +184,7 @@ Player = Actor:new({
     end
 
     if vy >= 0 or not btn(🅾️) then
-      if grounded then
-        set_state(_ENV, 'default')
-      else
-        set_state(_ENV, 'falling')
-      end
+      set_state(_ENV, 'falling')
     end
 
     apply_move_and_collide(_ENV)
@@ -171,18 +192,21 @@ Player = Actor:new({
 
   -- FALLING STATE
   state_falling = function(_ENV)
-    ground_keep = max(ground_keep - 1, 0)
+    if btnp(🅾️) and grounded == 'coyote' then
+      set_state(_ENV, 'jumping')
+    end
 
     if try_climb_up(_ENV) then
       set_state(_ENV, 'climbing')
       return
     end
 
-    if grounded then
+    if grounded and grounded != 'coyote' then
       set_state(_ENV, 'default')
     end
 
     apply_move_and_collide(_ENV)
+    coyote_time = max(coyote_time - 1, 0)
   end,
 
   apply_move_and_collide = function(_ENV)
@@ -205,7 +229,9 @@ Player = Actor:new({
     x, vx = collide_x(_ENV)
     y, vy, new_grounded = collide_y(_ENV)
 
-    if ground_keep == 0 then
+    if coyote_time > 0 then
+      grounded = 'coyote'
+    else
       grounded = new_grounded
     end
 
@@ -341,24 +367,30 @@ Player = Actor:new({
   draw_debug = function(_ENV)
     local pos_x = x - 10
     local pos_y = y - 10
-
     -- draw collider
+    fillp(▒)
     rectfill(x, y, x + width - 1, y + height - 1, 8)
+    fillp()
     rect(x, y, x + width - 1, y + height - 1, 7)
 
     local grounded_str = '…'
     if grounded == 'ladder' then
       grounded_str = "▤"
+    elseif grounded == 'coyote' then
+      grounded_str = "🐱"
     elseif grounded == 'semisolid' then
       grounded_str = "▒"
     elseif grounded then
       grounded_str = '█'
     end
 
-    grounded_str = grounded_str .. ' (' .. ground_keep .. ')'
+    grounded_str = grounded_str .. ' (' .. coyote_time .. ')'
 
-    rectfill(pos_x - 12, pos_y - 14, pos_x + 34, pos_y, 8)
-    rect(pos_x - 12, pos_y - 14, pos_x + 34, pos_y, 7)
-    print('g: ' .. grounded_str .. '\ns: ' .. state, pos_x - 10, pos_y - 12, 7)
+    rectfill(pos_x - 12, pos_y - 14, pos_x + 39, pos_y, 2)
+    fillp(▒)
+    rectfill(pos_x - 12, pos_y - 14, pos_x + 39, pos_y, 8)
+    fillp()
+    rect(pos_x - 12, pos_y - 14, pos_x + 39, pos_y, 7)
+    print('gR: ' .. grounded_str .. '\nsT: ' .. state, pos_x - 10, pos_y - 12, 7)
   end
 })

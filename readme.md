@@ -20,7 +20,6 @@ A Mega Man-like code exploration adventure in Pico 8.
   - [ ] Deal damage to player
   - [ ] Take damage from shots
   - [ ] Destroy on 0 hp
-- [ ] Coyote time
 - [ ] Jump buffering
 - [ ] Moving platforms
 - [ ] Basic tileset
@@ -31,6 +30,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Done
 
+- [x] Coyote time
 - [x] Fix jump controls, variable jumpheight
 - [x] Add states to player
 - [x] Change collision behaviour to return new values instead of manipulating them directly
