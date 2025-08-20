@@ -14,6 +14,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
+- [ ] Add nudge "climbing" up
 - [ ] Add basic enemy w/ goomba-like behaviour
   - [x] Class
   - [x] Turn around on edge or solid
@@ -25,8 +26,8 @@ A Mega Man-like code exploration adventure in Pico 8.
 - [ ] Basic tileset
 - [ ] Add particle system
 - [ ] Add edge nudge going up
-- [ ] Add nudge "climbing" up
 - [ ] Fix "turbo-fire" on jump/shoot?
+- [ ] Coyote as own state?
 
 ## Done
 

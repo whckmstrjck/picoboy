@@ -36,7 +36,7 @@ Player = Actor:new({
 
     -- DEFAULT
     if new_state == 'default' then
-      log('SET_DEFAULT')
+      -- no op
     end
 
     -- CLIMBING
@@ -120,19 +120,10 @@ Player = Actor:new({
       return
     end
 
-    if btnp(🅾️) then
-      if btn(⬇️) and grounded == 'semisolid' then
-        set_state(_ENV, 'dropping')
-      else
-        set_state(_ENV, 'jumping')
-      end
-      return
-    end
-
-    if try_climb_up(_ENV) or try_climb_down(_ENV) then
-      set_state(_ENV, 'climbing')
-      return
-    end
+    if try_drop(_ENV) then return end
+    if try_jump(_ENV) then return end
+    if try_climb_up(_ENV) then return end
+    if try_climb_down(_ENV) then return end
 
     apply_move_and_collide(_ENV)
   end,
@@ -166,22 +157,15 @@ Player = Actor:new({
       end
     end
 
-    if btnp(🅾️) and not btn(⬆️) then
-      set_state(_ENV, 'falling')
-      return
-    end
+    local drop_ladder = btnp(🅾️) and not btn(⬆️)
+    local not_on_ladder = drop_ladder or not fget(mget((x + width / 2) / 8, (y + height - 1) / 8), 3)
 
-    if not fget(mget((x + width / 2) / 8, (y + height - 1) / 8), 3) then
-      set_state(_ENV, 'falling')
-    end
+    if drop_ladder or not_on_ladder then set_state(_ENV, 'falling') end
   end,
 
   -- JUMPING STATE
   state_jumping = function(_ENV)
-    if try_climb_up(_ENV) then
-      set_state(_ENV, 'climbing')
-      return
-    end
+    if try_climb_up(_ENV) then return end
 
     if vy >= 0 or not btn(🅾️) then
       set_state(_ENV, 'falling')
@@ -192,14 +176,8 @@ Player = Actor:new({
 
   -- FALLING STATE
   state_falling = function(_ENV)
-    if btnp(🅾️) and grounded == 'coyote' then
-      set_state(_ENV, 'jumping')
-    end
-
-    if try_climb_up(_ENV) then
-      set_state(_ENV, 'climbing')
-      return
-    end
+    if try_jump(_ENV) then return end
+    if try_climb_up(_ENV) then return end
 
     if grounded and grounded != 'coyote' then
       set_state(_ENV, 'default')
@@ -242,13 +220,27 @@ Player = Actor:new({
       y = -100
     end
   end,
+
+  -- ACTIONS
   try_jump = function(_ENV)
+    local will_jump = btnp(🅾️) and grounded
+    if will_jump then set_state(_ENV, 'jumping') end
+    return will_jump
+  end,
+  try_drop = function(_ENV)
+    local will_drop = btnp(🅾️) and btn(⬇️) and grounded == 'semisolid'
+    if will_drop then set_state(_ENV, 'dropping') end
+    return will_drop
   end,
   try_climb_up = function(_ENV)
-    return btn(⬆️) and fget(mget((x + width / 2) / 8, (y + 2) / 8), 3)
+    local will_climb_up = btn(⬆️) and fget(mget((x + width / 2) / 8, (y + 2) / 8), 3)
+    if will_climb_up then set_state(_ENV, 'climbing') end
+    return will_climb_up
   end,
   try_climb_down = function(_ENV)
-    return btn(⬇️) and grounded == 'ladder'
+    local will_climb_down = btn(⬇️) and grounded == 'ladder'
+    if will_climb_down then set_state(_ENV, 'climbing') end
+    return will_climb_down
   end,
 
   -- shooting
