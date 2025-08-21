@@ -121,7 +121,6 @@ Player = Actor:new({
   state_default = function(_ENV)
     if not grounded then
       set_state(_ENV, 'falling')
-      return
     end
 
     if try_drop(_ENV) then return end
@@ -317,7 +316,7 @@ Player = Actor:new({
   draw_default = function(_ENV)
     local spr_id = 2
 
-    if not grounded then
+    if not grounded or grounded == 'coyote' then
       if vy < 0 then
         spr_id = 10
       else
@@ -372,8 +371,8 @@ Player = Actor:new({
     -- draw state and grounded info
     local debug_x = 2
     local debug_y = 2
-    local debug_w = 50
-    local debug_h = 14
+    local debug_w = 53
+    local debug_h = 16
 
     local grounded_str = '…'
     if grounded == 'ladder' then
@@ -386,14 +385,15 @@ Player = Actor:new({
       grounded_str = '█'
     end
 
-    grounded_str = grounded_str .. ' (' .. coyote_time .. ')'
+    grounded_str = grounded_str .. ' cT: ' .. (coyote_time == 0 and '-' or coyote_time)
 
-    rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 2)
+    rectfill(debug_x + 1, debug_y + 1, debug_x + debug_w + 1, debug_y + debug_h + 1, 2)
+    rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 5)
     fillp(▤)
-    rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 8)
+    rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 3)
     fillp()
-    rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 7)
-    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 3, debug_y + 2, 2)
-    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 2, debug_y + 2, 7)
+    rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 15)
+    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 2)
+    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 3, debug_y + 3, 15)
   end
 })
