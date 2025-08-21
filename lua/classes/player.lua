@@ -15,7 +15,7 @@ Player = Actor:new({
   gravity = .14,
   grounded = nil, -- nil, solid, semisolid, ladder, coyote
   coyote_time = 0,
-  coyote_frame_count = 3,
+  coyote_frame_count = 2,
 
   shooting = 0,
   shooting_dur = 26,
@@ -53,6 +53,11 @@ Player = Actor:new({
           end
         end
 
+        if not ladder_x then
+          set_state(_ENV, 'default')
+          return
+        end
+
         y += 3
         x = ladder_x + 1.5
       else
@@ -82,7 +87,6 @@ Player = Actor:new({
     if new_state == 'falling' then
       vy = 1.2
 
-      log(state)
       if state == 'default' then
         grounded = 'coyote'
         coyote_time = coyote_frame_count
@@ -176,7 +180,10 @@ Player = Actor:new({
 
   -- FALLING STATE
   state_falling = function(_ENV)
-    if try_jump(_ENV) then return end
+    if try_jump(_ENV) then
+      log('COYOTE JUMP')
+      return
+    end
     if try_climb_up(_ENV) then return end
 
     if grounded and grounded != 'coyote' then
@@ -243,7 +250,7 @@ Player = Actor:new({
     return will_climb_down
   end,
 
-  -- shooting
+  -- SHOOTING
   shoot = function(_ENV)
     if btnp(❎) and #shots < shots_limit then
       sfx(0)
@@ -283,7 +290,7 @@ Player = Actor:new({
     end
   end,
 
-  -- draw
+  -- DRAW METHODS
   draw_shots = function(_ENV)
     for shot in all(shots) do
       spr(15, shot.x + (flipped and -3 or -4), shot.y - 1, 1, 1, shot.flipped)
@@ -352,12 +359,14 @@ Player = Actor:new({
 
     draw_cannon(_ENV)
   end,
+
+  -- DEBUG DRAW METHODS
   draw_debug = function(_ENV)
     -- draw collider
-    fillp(▒)
-    rectfill(x, y, x + width - 1, y + height - 1, 8)
-    fillp()
-    rect(x, y, x + width - 1, y + height - 1, 7)
+    -- fillp(▒)
+    -- rectfill(x, y, x + width - 1, y + height - 1, 8)
+    -- fillp()
+    -- rect(x, y, x + width - 1, y + height - 1, 7)
   end,
   draw_debug_static = function(_ENV)
     -- draw state and grounded info
@@ -380,10 +389,11 @@ Player = Actor:new({
     grounded_str = grounded_str .. ' (' .. coyote_time .. ')'
 
     rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 2)
-    fillp(▒)
+    fillp(▤)
     rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 8)
     fillp()
     rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 7)
+    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 3, debug_y + 2, 2)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 2, debug_y + 2, 7)
   end
 })
