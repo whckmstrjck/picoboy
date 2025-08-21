@@ -351,19 +351,20 @@ Player = Actor:new({
     end
 
     draw_cannon(_ENV)
-
-    draw_debug(_ENV)
   end,
-
-
   draw_debug = function(_ENV)
-    local pos_x = x - 10
-    local pos_y = y - 10
     -- draw collider
     fillp(▒)
     rectfill(x, y, x + width - 1, y + height - 1, 8)
     fillp()
     rect(x, y, x + width - 1, y + height - 1, 7)
+  end,
+  draw_debug_static = function(_ENV)
+    -- draw state and grounded info
+    local debug_x = 2
+    local debug_y = 2
+    local debug_w = 50
+    local debug_h = 14
 
     local grounded_str = '…'
     if grounded == 'ladder' then
@@ -378,11 +379,11 @@ Player = Actor:new({
 
     grounded_str = grounded_str .. ' (' .. coyote_time .. ')'
 
-    rectfill(pos_x - 12, pos_y - 14, pos_x + 39, pos_y, 2)
+    rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 2)
     fillp(▒)
-    rectfill(pos_x - 12, pos_y - 14, pos_x + 39, pos_y, 8)
+    rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 8)
     fillp()
-    rect(pos_x - 12, pos_y - 14, pos_x + 39, pos_y, 7)
-    print('gR: ' .. grounded_str .. '\nsT: ' .. state, pos_x - 10, pos_y - 12, 7)
+    rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 7)
+    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 2, debug_y + 2, 7)
   end
 })

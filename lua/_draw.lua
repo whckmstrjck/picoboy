@@ -8,4 +8,7 @@ function _draw()
 
   test_enemy:draw()
   player:draw()
+  player:draw_debug()
+  camera()
+  player:draw_debug_static()
 end
