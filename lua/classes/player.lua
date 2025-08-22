@@ -15,7 +15,7 @@ Player = Actor:new({
   gravity = .14,
   grounded = nil, -- nil, solid, semisolid, ladder, coyote
   coyote_time = 0,
-  coyote_frame_count = 2,
+  coyote_frame_count = 3,
 
   shooting = 0,
   shooting_dur = 26,
@@ -196,7 +196,11 @@ Player = Actor:new({
   apply_move_and_collide = function(_ENV)
     vx = 0
 
-    vy = min(vy + gravity, vy_max)
+    if grounded == 'coyote' then
+      vy = 0
+    else
+      vy = min(vy + gravity, vy_max)
+    end
 
     if btn(⬅️) then
       vx = -speed
@@ -316,7 +320,7 @@ Player = Actor:new({
   draw_default = function(_ENV)
     local spr_id = 2
 
-    if not grounded or grounded == 'coyote' then
+    if not grounded then
       if vy < 0 then
         spr_id = 10
       else
@@ -371,7 +375,7 @@ Player = Actor:new({
     -- draw state and grounded info
     local debug_x = 2
     local debug_y = 2
-    local debug_w = 53
+    local debug_w = 54
     local debug_h = 16
 
     local grounded_str = '…'
@@ -390,10 +394,10 @@ Player = Actor:new({
     rectfill(debug_x + 1, debug_y + 1, debug_x + debug_w + 1, debug_y + debug_h + 1, 2)
     rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 5)
     fillp(▤)
-    rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 3)
+    rectfill(debug_x + 2, debug_y, debug_x + debug_w, debug_y + debug_h, 3)
     fillp()
     rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 15)
-    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 2)
-    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 3, debug_y + 3, 15)
+    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 5, debug_y + 3, 2)
+    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 15)
   end
 })

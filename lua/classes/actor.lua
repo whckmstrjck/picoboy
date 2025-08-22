@@ -27,7 +27,11 @@ Actor = Class:new({
   collide_x = function(_ENV)
     local dir = sgn(vx)
     local x_check = x
-    local y_checks = { y + skin_w, y + height / 2, y + height - skin_w }
+    local y_checks = {
+      y + skin_w,
+      y + height / 2,
+      y + height - skin_w
+    }
 
     if dir < 0 then
       x_check += vx
