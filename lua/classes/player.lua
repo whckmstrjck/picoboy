@@ -88,7 +88,6 @@ Player = Actor:new({
       vy = 1.2
 
       if state == 'default' then
-        vy = 0
         grounded = 'coyote'
         coyote_time = coyote_frame_count
       end
@@ -181,7 +180,6 @@ Player = Actor:new({
   -- FALLING STATE
   state_falling = function(_ENV)
     if try_jump(_ENV) then
-      log('COYOTE JUMP')
       return
     end
     if try_climb_up(_ENV) then return end
