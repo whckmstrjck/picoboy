@@ -328,8 +328,6 @@ Player = Actor:new({
     else
       if vx != 0 then
         spr_id += flr((t() * 10 % 3 + 1)) * 2
-      else
-        spr_id = 2
       end
     end
 
