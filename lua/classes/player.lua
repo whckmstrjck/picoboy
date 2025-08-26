@@ -88,6 +88,7 @@ Player = Actor:new({
       vy = 1.2
 
       if state == 'default' then
+        vy = 0
         grounded = 'coyote'
         coyote_time = coyote_frame_count
       end
@@ -327,6 +328,7 @@ Player = Actor:new({
         spr_id = 12
       end
     else
+      log('DEFAULT')
       if vx != 0 then
         spr_id += flr((t() * 10 % 3 + 1)) * 2
       else
