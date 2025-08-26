@@ -1,11 +1,21 @@
 LilBot = Actor:new({
-  width = 6,
-  height = 7,
-  spr_offset = { default = { x = -1, y = -1 }, flipped = { x = -1, y = -1 } },
-  speed = 0.2,
+  width = 4,
+  height = 11,
+  spr_offset = { default = { x = -6, y = -4 }, flipped = { x = -6, y = -4 } },
+  spr_size = { x = 2, y = 2 },
+
+  speed = 0.3,
   flipped = true,
   update = function(_ENV)
     vy = min(vy + gravity, vy_max)
+
+    local t = time() % 1
+    if t < .5 then
+      vx = lerp(vx, 1, t)
+    else
+      local new_t = (1 - t) * 2
+      vx = lerp(0, vx, new_t)
+    end
 
     local x_hit = nil
     x, vx, x_hit = collide_x(_ENV)
@@ -16,9 +26,7 @@ LilBot = Actor:new({
       flipped = not flipped
     end
 
-    vx = flipped and -speed or speed
-
-    x += vx
+    x += (flipped and -1 or 1) * speed * vx
     y += vy
   end,
   check_edge = function(_ENV)
@@ -32,6 +40,12 @@ LilBot = Actor:new({
     return true
   end,
   draw = function(_ENV)
-    draw_spr(_ENV, 64, { flipped = t() % 1 < .5 })
+    local spr_id = 64
+    if (vx > .1) then spr_id = 66 end
+    draw_spr(_ENV, spr_id)
+
+    -- draw collider
+
+    -- rect(x, y, x + width - 1, y + height - 1, 7)
   end
 })
