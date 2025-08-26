@@ -27,7 +27,6 @@ A Mega Man-like code exploration adventure in Pico 8.
 - [ ] Add particle system
 - [ ] Add edge nudge going up
 - [ ] Fix "turbo-fire" on jump/shoot?
-- [ ] Coyote as own state?
 
 ## Done
 
