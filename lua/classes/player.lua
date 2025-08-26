@@ -321,14 +321,11 @@ Player = Actor:new({
   draw_default = function(_ENV)
     local spr_id = 2
 
-    if not grounded then
-      if vy < 0 then
-        spr_id = 10
-      else
-        spr_id = 12
-      end
+    if not grounded and state == 'falling' then
+      spr_id = 10
+    elseif state == 'jumping' then
+      spr_id = 12
     else
-      log('DEFAULT')
       if vx != 0 then
         spr_id += flr((t() * 10 % 3 + 1)) * 2
       else
