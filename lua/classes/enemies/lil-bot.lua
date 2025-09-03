@@ -45,7 +45,7 @@ LilBot = Actor:new({
   end,
   draw = function(_ENV)
     local spr_id = 64
-    if (vx > .1) then spr_id = 66 end
+    if (abs(vx) > .1) then spr_id = 66 end
     draw_spr(_ENV, spr_id)
 
     -- draw collider
