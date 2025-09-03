@@ -13,25 +13,25 @@ draw_smoke_stack = function(pos, w_bottom, w_top, slant)
     local x2 = pos + width / 2 + slant * t
     local color = 2
 
-    if i < 20 then
-      color = 5
-    elseif i < 41 then
-      if i % 3 > .5 then
-        color = 5
-      end
-    elseif i < 56 then
-      if i % 2 > .5 then
-        color = 5
-      end
-    elseif i < 74 then
-      if i % 3 < 1 then
-        color = 5
-      end
-    elseif i < 88 then
-      if i % 4 < 1 then
-        color = 5
-      end
-    end
+    -- if i < 20 then
+    --   color = 5
+    -- elseif i < 41 then
+    --   if i % 3 > .5 then
+    --     color = 5
+    --   end
+    -- elseif i < 56 then
+    --   if i % 2 > .5 then
+    --     color = 5
+    --   end
+    -- elseif i < 74 then
+    --   if i % 3 < 1 then
+    --     color = 5
+    --   end
+    -- elseif i < 88 then
+    --   if i % 4 < 1 then
+    --     color = 5
+    --   end
+    -- end
 
     local sway = cos(time() * .5 - (t * 3 * t)) * 4 * t
 

@@ -14,7 +14,8 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
-- [ ] Add nudge "climbing" up
+- [ ] Add camera class, states, player ref, helper methods
+- [ ] Add nudge "climbing" up ledge
 - [ ] Add basic enemy w/ goomba-like behaviour
   - [x] Class
   - [x] Turn around on edge or solid
