@@ -5,32 +5,36 @@ LilBot = Actor:new({
   spr_size = { x = 2, y = 2 },
 
   speed = 0.3,
-  flipped = true,
+  flipped = false,
+  abs_vx = 0,
   update = function(_ENV)
     vy = min(vy + gravity, vy_max)
 
     local t = time() % 1
     if t < .5 then
-      vx = lerp(vx, 1, t)
+      abs_vx = lerp(abs_vx, 1, t)
     else
       local new_t = (1 - t) * 2
-      vx = lerp(0, vx, new_t)
+      abs_vx = lerp(0, abs_vx, new_t)
     end
 
     local x_hit = nil
-    x, vx, x_hit = collide_x(_ENV)
+    _, _, x_hit = collide_x(_ENV)
     y, vy, grounded = collide_y(_ENV)
-    local falling_off = check_edge(_ENV)
+
+    local falling_off = grounded and check_edge(_ENV) or false
 
     if x_hit or falling_off then
       flipped = not flipped
     end
 
-    x += (flipped and -1 or 1) * speed * vx
+    vx = speed * (abs_vx * (flipped and -1 or 1))
+
+    x += vx
     y += vy
   end,
   check_edge = function(_ENV)
-    local cel_x = flr((x + (flipped and -1 or (width + 7))) / 8)
+    local cel_x = flr((x + (flipped and -2 or (width + 1))) / 8)
     local cel_y = flr((y + height + 2) / 8)
 
     if fget(mget(cel_x, cel_y), 0) or fget(mget(cel_x, cel_y), 2) then
@@ -46,6 +50,6 @@ LilBot = Actor:new({
 
     -- draw collider
 
-    -- rect(x, y, x + width - 1, y + height - 1, 7)
+    rect(x, y, x + width - 1, y + height - 1, 7)
   end
 })

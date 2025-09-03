@@ -51,8 +51,12 @@ end
 
 draw_sky = function()
   -- sky
-  cls(1)
-  fillp(▤)
+  cls(0)
+
+  if true then
+    return
+  end
+
   rectfill(0, 0, 128, 24, 0)
   fillp()
   rectfill(0, 0, 128, 20, 0)

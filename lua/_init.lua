@@ -3,7 +3,7 @@ function _init()
   player = Player:new()
   test_enemy = LilBot:new({
     x = 100,
-    y = 10
+    y = 1
   })
 
   -- poke(0x5f2e, 1)
