@@ -27,7 +27,7 @@ Player = Actor:new({
   spr_offset = { default = { x = -6, y = -4 }, flipped = { x = -5, y = -4 } },
 
   new = function(_ENV)
-    spr_offset.climbing = { x = -1.5, y = -1 }
+    spr_offset.climbing = { x = -5, y = -3 }
     return _ENV
   end,
 
@@ -65,7 +65,6 @@ Player = Actor:new({
         x = flr((x + width / 2) / 8) * 8 + 1.5
       end
 
-      spr_size = { x = 1, y = 2 }
       vy = 0
       grounded = nil
     end
@@ -94,7 +93,6 @@ Player = Actor:new({
 
       if state == 'climbing' then
         y -= 1 -- fix later, avoids colliding
-        spr_size = { x = 2, y = 2 }
       end
     end
 
@@ -308,7 +306,7 @@ Player = Actor:new({
         arm_cannon_spr = 31
       end
 
-      local spr_x = x + (flipped and -9 or 6)
+      local spr_x = x + (flipped and -8 or 5)
       if not flipped and state == 'climbing' then
         spr_x += 1
       end

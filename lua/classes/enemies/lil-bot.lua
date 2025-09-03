@@ -50,6 +50,6 @@ LilBot = Actor:new({
 
     -- draw collider
 
-    rect(x, y, x + width - 1, y + height - 1, 7)
+    -- rect(x, y, x + width - 1, y + height - 1, 7)
   end
 })
