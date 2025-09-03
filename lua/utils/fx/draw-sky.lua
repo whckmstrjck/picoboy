@@ -11,7 +11,7 @@ draw_smoke_stack = function(pos, w_bottom, w_top, slant)
     local width = lerp(w_bottom, w_top, t)
     local x1 = pos - width / 2 + slant * t
     local x2 = pos + width / 2 + slant * t
-    local color = 2
+    local color = 0
 
     -- if i < 20 then
     --   color = 5
@@ -43,23 +43,20 @@ draw_smoke_stack = function(pos, w_bottom, w_top, slant)
       color
     )
 
-    local outline_width = 2 * t
-    line(x1 + sway, i, x1 + sway - outline_width, i, 2)
-    line(x2 + sway, i, x2 + sway + outline_width, i, 2)
+    -- local outline_width = 2 * t
+    -- line(x1 + sway, i, x1 + sway - outline_width, i, 2)
+    -- line(x2 + sway, i, x2 + sway + outline_width, i, 2)
   end
 end
 
 draw_sky = function()
   -- sky
-  cls(0)
+  cls(1)
 
-  if true then
-    return
-  end
-
-  rectfill(0, 0, 128, 24, 0)
+  fillp(▤)
+  rectfill(0, 0, 128, 30, 0)
   fillp()
-  rectfill(0, 0, 128, 20, 0)
+  rectfill(0, 0, 128, 24, 0)
 
   -- stars
   circfill(10, 10, .5, 7)
@@ -68,6 +65,7 @@ draw_sky = function()
   circfill(52, 8, 1, 7)
   circfill(56, 16, .5, 7)
   circfill(82, 18, 1, 7)
+  circfill(70, 30, 1, 7)
   circfill(94, 16, .5, 7)
   circfill(110, 20, .5, 7)
 
@@ -77,36 +75,12 @@ draw_sky = function()
   draw_smoke_stack(114, -5, 30, -20)
   draw_smoke_stack(116, -5, 5, 10)
 
-  -- for i = 128, 0, -1 do
-  --   line(
-  --     76 - (128 - i) * .3 + sin(t() / 2 + i / 20) * 3,
-  --     i,
-  --     76 - (128 - i) * .6 + sin(t() / 2 + i / 20) * 3,
-  --     i,
-  --     5
-  --   )
-  -- end
+  fillp(▤)
+  rectfill(0, 96, 128, 128, 0)
+  fillp()
+  rectfill(0, 102, 128, 128, 0)
 
-  -- for i = 128, 0, -1 do
-  --   line(
-  --     40 - (128 - i) * .1 + sin(t() / 2 + i / 20) * 3,
-  --     i,
-  --     40 - (128 - i) * .3 + sin(t() / 2 + i / 20) * 3,
-  --     i,
-  --     5
-  --   )
-  -- end
-
-  -- for i = 128, 0, -1 do
-  --   line(
-  --     129 - (128 - i) * .02 + sin(t() / 2 + i / 25) * 3,
-  --     i,
-  --     130 - (128 - i) * .2 + sin(t() / 2 + i / 25) * 3,
-  --     i,
-  --     5
-  --   )
-  -- end
-
+  if true then return end
   -- sky
   fillp(▤)
   rectfill(0, 104, 128, 128, 2)

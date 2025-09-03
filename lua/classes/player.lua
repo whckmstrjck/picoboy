@@ -254,11 +254,12 @@ Player = Actor:new({
   shoot = function(_ENV)
     if btnp(❎) and #shots < shots_limit then
       sfx(0)
-      if flipped then
-        add(shots, { x = x - 4, y = y + 7, flipped = true })
-      else
-        add(shots, { x = x + width + 3, y = y + 7, flipped = false })
-      end
+
+      local shot_x = x + (flipped and -4 or width + 3)
+      local shot_y = y + (state == 'climbing' and 5 or 6)
+
+      add(shots, { x = shot_x, y = shot_y, flipped = flipped })
+
       shooting = shooting_dur
     elseif shooting > 0 then
       shooting = max(shooting - 1, 0)
@@ -307,15 +308,24 @@ Player = Actor:new({
       end
 
       local spr_x = x + (flipped and -8 or 5)
-      if not flipped and state == 'climbing' then
-        spr_x += 1
-      end
       local spr_y = y + 5
+
+      if state == 'climbing' then
+        if not flipped then
+          spr_x += 1
+        end
+        spr_y -= 1
+      end
+
       spr(arm_cannon_spr, spr_x, spr_y, 1, 1, flipped)
     end
   end,
   draw_default = function(_ENV)
-    local spr_id = 2
+    local spr_id = ((t() >> 2) % 1) > .95 and 32 or 0
+
+    if shooting > 0 then
+      spr_id = 2
+    end
 
     if not grounded and state == 'falling' then
       spr_id = 12
@@ -323,7 +333,8 @@ Player = Actor:new({
       spr_id = 10
     else
       if vx != 0 then
-        spr_id += flr((t() * 10 % 3 + 1)) * 2
+        spr_id = 2
+        spr_id += flr((t() * 8 % 3 + 1)) * 2
       end
     end
 
