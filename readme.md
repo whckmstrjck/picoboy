@@ -14,7 +14,6 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
-- [ ] Add camera class, states, player ref, helper methods
 - [ ] Add nudge "climbing" up ledge
 - [ ] Add basic enemy w/ goomba-like behaviour
   - [x] Class
@@ -32,6 +31,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Done
 
+- [x] Add camera class, states, player ref, helper methods
 - [x] Coyote time
 - [x] Fix jump controls, variable jumpheight
 - [x] Add states to player

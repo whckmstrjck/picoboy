@@ -1,6 +1,7 @@
 function _init()
   G = _ENV
   player = Player:new()
+  cam = Camera:new({ target_actor = player, state = 'follow' })
   test_enemy = LilBot:new({
     x = 100,
     y = 1
