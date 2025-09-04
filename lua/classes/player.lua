@@ -255,6 +255,9 @@ Player = Actor:new({
     if btnp(❎) and #shots < shots_limit then
       sfx(0)
 
+      -- recoil!
+      -- x = x + (flipped and 1 or -1)
+
       local shot_x = x + (flipped and -4 or width + 3)
       local shot_y = y + (state == 'climbing' and 5 or 6)
 
