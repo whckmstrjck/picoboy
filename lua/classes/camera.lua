@@ -16,5 +16,15 @@ Camera = Class:new({
   end,
   reset = function(_ENV)
     camera(0, 0)
+  end,
+  out_of_bounds = function(_ENV, actor)
+    local padding = 5
+    if (actor.x - actor.width - padding) < x - padding or (actor.x + padding) > x + 128 then
+      return true
+    end
+    if (actor.y - actor.height - padding) < y - padding or (actor.y + padding) > y + 128 then
+      return true
+    end
+    return false
   end
 })

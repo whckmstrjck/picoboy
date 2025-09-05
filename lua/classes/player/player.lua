@@ -7,21 +7,20 @@ Player = Actor:new({
   height = 11,
 
   speed = .8,
-  jump_force = 3,
+  jump_force = 2.4,
   climbing = false,
   climbing_y = 0,
   climbing_speed = 0.5,
 
-  gravity = .14,
+  gravity = .1,
   grounded = nil, -- nil, solid, semisolid, ladder, coyote
   coyote_time = 0,
   coyote_frame_count = 3,
 
   shooting = 0,
   shooting_dur = 26,
-  shots = {},
-  shots_v = 2.8,
-  shots_limit = 3,
+  bullets = {},
+  bulelts = 3,
 
   spr_size = { x = 2, y = 2 },
   spr_offset = { default = { x = -6, y = -4 }, flipped = { x = -5, y = -4 } },
@@ -113,6 +112,8 @@ Player = Actor:new({
     end
 
     shoot(_ENV)
+    for bullet in all(bullets) do
+    end
   end,
 
   -- DEFAULT STATE
@@ -261,36 +262,11 @@ Player = Actor:new({
       local shot_x = x + (flipped and -4 or width + 3)
       local shot_y = y + (state == 'climbing' and 5 or 6)
 
-      add(shots, { x = shot_x, y = shot_y, flipped = flipped })
+      add(shots, Bullet:new({ x = shot_x, y = shot_y, flipped = flipped }))
 
       shooting = shooting_dur
     elseif shooting > 0 then
       shooting = max(shooting - 1, 0)
-    end
-
-    for shot in all(shots) do
-      if shot.destroy then
-        sfx(1)
-        del(shots, shot)
-      end
-
-      if shot.flipped then
-        shot.x -= shots_v
-      else
-        shot.x += shots_v
-      end
-
-      if abs(shot.x - x) > 100 then
-        del(shots, shot)
-      end
-
-      if fget(mget(shot.x / 8, shot.y / 8), 1) then
-        shot.destroy = true
-        shot.x = flr(shot.x / 8) * 8
-        if shot.flipped then
-          shot.x += 8
-        end
-      end
     end
   end,
 
