@@ -1,14 +1,16 @@
-LilBot = Actor:new({
+LilBot = Enemy:new({
   width = 4,
   height = 11,
   spr_offset = { default = { x = -6, y = -4 }, flipped = { x = -6, y = -4 } },
   spr_size = { x = 2, y = 2 },
-  hp = 4,
+  hp = 3,
 
   speed = 0.3,
   flipped = false,
   abs_vx = 0,
   update = function(_ENV)
+    damage_time = max(damage_time - 1, 0)
+
     vy = min(vy + gravity, vy_max)
 
     local t = time() % 1
@@ -44,10 +46,14 @@ LilBot = Actor:new({
 
     return true
   end,
+
   draw = function(_ENV)
     local spr_id = 64
     if (abs(vx) > .1) then spr_id = 66 end
-    draw_spr(_ENV, spr_id)
+
+    if damage_time == 0 then
+      draw_spr(_ENV, spr_id)
+    end
 
     -- draw collider
 

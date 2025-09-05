@@ -11,6 +11,7 @@ __lua__
 #include lua/classes/player/bullet.lua
 #include lua/classes/camera.lua
 
+#include lua/classes/enemy.lua
 #include lua/classes/enemies/lil-bot.lua
 
 #include lua/utils/log.lua

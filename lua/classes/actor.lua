@@ -24,6 +24,12 @@ Actor = Class:new({
       }
     }
   end,
+  collide_other = function(_ENV, other)
+    local a = collider(_ENV)
+    local b = other.collider(other)
+
+    return not (a.x.max < b.x.min or a.x.min > b.x.max or a.y.max < b.y.min or a.y.min > b.y.max)
+  end,
   collide_x = function(_ENV)
     local dir = sgn(vx)
     local x_check = x

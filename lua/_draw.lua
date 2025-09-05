@@ -6,9 +6,14 @@ function _draw()
   cam:update()
   map()
 
-  test_enemy:draw()
+  for enemy in all(enemies) do
+    enemy:draw()
+  end
+
   player:draw()
   player:draw_debug()
+
   cam:reset()
+
   player:draw_debug_static()
 end

@@ -15,21 +15,21 @@ A Mega Man-like code exploration adventure in Pico 8.
 ## Todo
 
 - [ ] Add nudge "climbing" up ledge
+- [ ] Rethink input reading (Fix "turbo-fire" on jump/shoot etc)
 - [ ] Add basic enemy w/ goomba-like behaviour
   - [x] Class
   - [x] Turn around on edge or solid
+  - [x] Take damage from shots
+  - [x] Destroy on 0 hp
   - [ ] Deal damage to player
-  - [ ] Take damage from shots
-  - [ ] Destroy on 0 hp
 - [ ] Jump buffering
-- [ ] Moving platforms
-- [ ] Basic tileset
 - [ ] Add particle system
 - [ ] Add edge nudge going up
-- [ ] Rethink input reading (Fix "turbo-fire" on jump/shoot etc)
+- [ ] Moving platforms
 
 ## Done
 
+- [x] Basic tileset
 - [x] Classify bullets and rethink updating
 - [x] Bullets should be destroyed when leaving camera, not by distance to player
 - [x] Add camera class, states, player ref, helper methods

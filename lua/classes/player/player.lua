@@ -18,7 +18,7 @@ Player = Actor:new({
   coyote_frame_count = 3,
 
   shooting = 0,
-  shooting_dur = 26,
+  shooting_cooldown = 26,
   bullets = {},
   bullets_max_count = 3,
 
@@ -109,7 +109,7 @@ Player = Actor:new({
     for bullet in all(bullets) do
       bullet:update()
     end
-    shoot(_ENV)
+    try_shoot(_ENV)
   end,
 
   -- DEFAULT STATE
@@ -246,9 +246,7 @@ Player = Actor:new({
     if will_climb_down then set_state(_ENV, 'climbing') end
     return will_climb_down
   end,
-
-  -- SHOOTING
-  shoot = function(_ENV)
+  try_shoot = function(_ENV)
     shooting = max(shooting - 1, 0)
 
     if not btnp(❎) or #bullets >= bullets_max_count then return end
@@ -258,10 +256,10 @@ Player = Actor:new({
     -- x = x + (flipped and 1 or -1)
 
     local shot_x = x + (flipped and -4 or width + 3)
-    local shot_y = y + (state == 'climbing' and 5 or 6)
+    local shot_y = y + (state == 'climbing' and 4 or 5)
 
     add(bullets, Bullet:new({ x = shot_x, y = shot_y, bullets = bullets, flipped = flipped }))
-    shooting = shooting_dur
+    shooting = shooting_cooldown
   end,
 
   -- DRAW METHODS
@@ -274,9 +272,9 @@ Player = Actor:new({
     if shooting > 0 then
       local arm_cannon_spr = 14
 
-      if shooting > shooting_dur - 4 then
+      if shooting > shooting_cooldown - 4 then
         arm_cannon_spr = 30
-      elseif shooting > shooting_dur - 8 then
+      elseif shooting > shooting_cooldown - 8 then
         arm_cannon_spr = 31
       end
 
