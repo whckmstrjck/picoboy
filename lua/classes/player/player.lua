@@ -20,15 +20,10 @@ Player = Actor:new({
   shooting = 0,
   shooting_dur = 26,
   bullets = {},
-  bulelts = 3,
+  bullets_max_count = 3,
 
   spr_size = { x = 2, y = 2 },
-  spr_offset = { default = { x = -6, y = -4 }, flipped = { x = -5, y = -4 } },
-
-  new = function(_ENV)
-    spr_offset.climbing = { x = -5, y = -3 }
-    return _ENV
-  end,
+  spr_offset = { default = { x = -6, y = -4 }, flipped = { x = -5, y = -4 }, climbing = { x = -5, y = -3 } },
 
   set_state = function(_ENV, new_state)
     if state == new_state then return end
@@ -111,9 +106,10 @@ Player = Actor:new({
       state_falling(_ENV)
     end
 
-    shoot(_ENV)
     for bullet in all(bullets) do
+      bullet:update()
     end
+    shoot(_ENV)
   end,
 
   -- DEFAULT STATE
@@ -253,21 +249,19 @@ Player = Actor:new({
 
   -- SHOOTING
   shoot = function(_ENV)
-    if btnp(❎) and #shots < shots_limit then
-      sfx(0)
+    shooting = max(shooting - 1, 0)
 
-      -- recoil!
-      -- x = x + (flipped and 1 or -1)
+    if not btnp(❎) or #bullets >= bullets_max_count then return end
+    sfx(0)
 
-      local shot_x = x + (flipped and -4 or width + 3)
-      local shot_y = y + (state == 'climbing' and 5 or 6)
+    -- recoil!
+    -- x = x + (flipped and 1 or -1)
 
-      add(shots, Bullet:new({ x = shot_x, y = shot_y, flipped = flipped }))
+    local shot_x = x + (flipped and -4 or width + 3)
+    local shot_y = y + (state == 'climbing' and 5 or 6)
 
-      shooting = shooting_dur
-    elseif shooting > 0 then
-      shooting = max(shooting - 1, 0)
-    end
+    add(bullets, Bullet:new({ x = shot_x, y = shot_y, bullets = bullets, flipped = flipped }))
+    shooting = shooting_dur
   end,
 
   -- DRAW METHODS
@@ -335,7 +329,9 @@ Player = Actor:new({
     )
   end,
   draw = function(_ENV)
-    draw_shots(_ENV)
+    for bullet in all(bullets) do
+      bullet:draw()
+    end
 
     if state == 'climbing' then
       draw_climbing(_ENV)

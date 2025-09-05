@@ -26,12 +26,12 @@ A Mega Man-like code exploration adventure in Pico 8.
 - [ ] Basic tileset
 - [ ] Add particle system
 - [ ] Add edge nudge going up
-- [ ] Fix "turbo-fire" on jump/shoot?
-- [ ] Classify bullets and rethink updating
-- [ ] Bullets should be destroyed when leaving camera, not by distance to player
+- [ ] Rethink input reading (Fix "turbo-fire" on jump/shoot etc)
 
 ## Done
 
+- [x] Classify bullets and rethink updating
+- [x] Bullets should be destroyed when leaving camera, not by distance to player
 - [x] Add camera class, states, player ref, helper methods
 - [x] Coyote time
 - [x] Fix jump controls, variable jumpheight
