@@ -7,7 +7,8 @@ __lua__
 
 #include lua/classes/class.lua
 #include lua/classes/actor.lua
-#include lua/classes/player.lua
+#include lua/classes/player/player.lua
+#include lua/classes/player/bullet.lua
 #include lua/classes/camera.lua
 
 #include lua/classes/enemies/lil-bot.lua
