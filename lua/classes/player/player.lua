@@ -1,10 +1,12 @@
 Player = Actor:new({
-  state = 'falling', -- default, dropping, jumping, falling, climbing
+  state = 'falling', -- default, dropping, jumping, falling, climbing, hurt
 
   x = 10,
   y = -15,
   width = 5,
   height = 11,
+
+  hp = 30,
 
   speed = .8,
   jump_force = 2.4,
@@ -88,6 +90,10 @@ Player = Actor:new({
       if state == 'climbing' then
         y -= 1 -- fix later, avoids colliding
       end
+    end
+
+    if new_state == 'hurt' then
+      -- no op
     end
 
     state = new_state
