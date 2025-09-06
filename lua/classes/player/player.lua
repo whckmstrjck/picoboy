@@ -1,6 +1,13 @@
 Player = Actor:new({
   state = 'falling', -- default, dropping, jumping, falling, climbing, hurt
 
+  iu = nil, -- true, false
+  id = nil, -- true, false
+  il = nil, -- true, false
+  ir = nil, -- true, false
+  io = nil, -- down, held, up
+  ix = nil, -- down, held, up
+
   x = 10,
   y = -15,
   width = 5,
@@ -100,6 +107,8 @@ Player = Actor:new({
   end,
 
   update = function(_ENV)
+    update_inputs(_ENV)
+
     if state == 'default' then
       state_default(_ENV)
     elseif state == 'dropping' then
@@ -116,6 +125,30 @@ Player = Actor:new({
       bullet:update()
     end
     try_shoot(_ENV)
+  end,
+
+  update_inputs = function(_ENV)
+    iu = btn(⬆️)
+    id = btn(⬇️)
+    il = btn(⬅️)
+    ir = btn(➡️)
+
+    function update_button_state(button, state)
+      if (button and not state) or (button and state == 'up') then
+        state = 'down'
+      elseif (button and state == 'down') or (button and state == 'held') then
+        state = 'held'
+      elseif not button and (state == 'down' or state == 'held') then
+        state = 'up'
+      elseif not button and state == 'up' then
+        state = nil
+      end
+
+      return state
+    end
+
+    io = update_button_state(btn(🅾️), io)
+    ix = update_button_state(btn(❎), ix)
   end,
 
   -- DEFAULT STATE
@@ -139,14 +172,14 @@ Player = Actor:new({
 
   -- CLIMBING STATE
   state_climbing = function(_ENV)
-    if btn(⬅️) then
+    if il then
       if not flipped then
         shooting = 0
       end
       flipped = true
     end
 
-    if btn(➡️) then
+    if ir then
       if flipped then
         shooting = 0
       end
@@ -154,14 +187,14 @@ Player = Actor:new({
     end
 
     if shooting == 0 then
-      if btn(⬆️) then
+      if iu then
         y -= climbing_speed
-      elseif btn(⬇️) then
+      elseif id then
         y += climbing_speed
       end
     end
 
-    local drop_ladder = btnp(🅾️) and not btn(⬆️)
+    local drop_ladder = io == 'down' and not iu
     local not_on_ladder = drop_ladder or not fget(mget((x + width / 2) / 8, (y + height - 1) / 8), 3)
 
     if drop_ladder or not_on_ladder then set_state(_ENV, 'falling') end
@@ -171,7 +204,7 @@ Player = Actor:new({
   state_jumping = function(_ENV)
     if try_climb_up(_ENV) then return end
 
-    if vy >= 0 or not btn(🅾️) then
+    if vy >= 0 or io != 'held' then
       set_state(_ENV, 'falling')
     end
 
@@ -233,12 +266,12 @@ Player = Actor:new({
 
   -- ACTIONS
   try_jump = function(_ENV)
-    local will_jump = btnp(🅾️) and grounded
+    local will_jump = io == 'down' and grounded
     if will_jump then set_state(_ENV, 'jumping') end
     return will_jump
   end,
   try_drop = function(_ENV)
-    local will_drop = btnp(🅾️) and btn(⬇️) and grounded == 'semisolid'
+    local will_drop = io == 'down' and id and grounded == 'semisolid'
     if will_drop then set_state(_ENV, 'dropping') end
     return will_drop
   end,
@@ -255,7 +288,7 @@ Player = Actor:new({
   try_shoot = function(_ENV)
     shooting = max(shooting - 1, 0)
 
-    if not btnp(❎) or #bullets >= bullets_max_count then return end
+    if not (ix == 'down') or #bullets >= bullets_max_count then return end
     sfx(0)
 
     -- recoil!
@@ -382,5 +415,8 @@ Player = Actor:new({
     rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 15)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 5, debug_y + 3, 2)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 15)
+
+    print('🅾️: ' .. (io or '-'), 90, 4, 2)
+    print('❎: ' .. (ix or '-'), 90, 10, 2)
   end
 })
