@@ -5,6 +5,9 @@ __lua__
 #include lua/_update60.lua
 #include lua/_draw.lua
 
+#include lua/ui/ui.lua
+#include lua/ui/hp.lua
+
 #include lua/classes/class.lua
 #include lua/classes/actor.lua
 #include lua/classes/player/player.lua
