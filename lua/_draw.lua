@@ -16,4 +16,5 @@ function _draw()
   cam:reset()
 
   player:draw_debug_static()
+  draw_ui()
 end

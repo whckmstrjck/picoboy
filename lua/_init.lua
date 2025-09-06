@@ -1,7 +1,10 @@
 function _init()
   G = _ENV
 
-  player = Player:new()
+  player = Player:new({
+    x = 24,
+    y = -30
+  })
 
   enemies = {}
 
