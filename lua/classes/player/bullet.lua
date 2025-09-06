@@ -29,6 +29,7 @@ Bullet = Actor:new({
       if not cam:out_of_bounds(enemy) and collide_other(_ENV, enemy) then
         enemy:damage(1)
         destroy(_ENV)
+        break
       end
     end
   end

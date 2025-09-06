@@ -4,12 +4,17 @@ LilBot = Enemy:new({
   spr_offset = { default = { x = -6, y = -4 }, flipped = { x = -6, y = -4 } },
   spr_size = { x = 2, y = 2 },
   hp = 3,
+  damage_power = 4,
 
   speed = 0.3,
   flipped = false,
   abs_vx = 0,
   update = function(_ENV)
     damage_time = max(damage_time - 1, 0)
+
+    if collide_other(_ENV, player) then
+      player:try_damage(damage_power)
+    end
 
     vy = min(vy + gravity, vy_max)
 

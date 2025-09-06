@@ -14,12 +14,6 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
-- [ ] Add basic enemy w/ goomba-like behaviour
-  - [x] Class
-  - [x] Turn around on edge or solid
-  - [x] Take damage from shots
-  - [x] Destroy on 0 hp
-  - [ ] Deal damage to player
 - [ ] Add nudge "climbing" up ledge
 - [ ] Jump buffering
 - [ ] Add particle system
@@ -28,6 +22,12 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Done
 
+- [x] Add basic enemy w/ goomba-like behaviour
+  - [x] Class
+  - [x] Turn around on edge or solid
+  - [x] Take damage from shots
+  - [x] Destroy on 0 hp
+  - [x] Deal damage to player
 - [x] Rethink input reading (Fix "turbo-fire" on jump/shoot etc)
 - [x] Basic tileset
 - [x] Classify bullets and rethink updating

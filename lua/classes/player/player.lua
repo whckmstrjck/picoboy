@@ -14,6 +14,12 @@ Player = Actor:new({
   height = 11,
 
   hp = 30,
+  hurt = 0,
+  hurt_vx = 0.24,
+  hurt_max_count = 54,
+  iframes = 0,
+  iframes_max_count = 128,
+
 
   speed = .8,
   jump_force = 2.4,
@@ -100,7 +106,10 @@ Player = Actor:new({
     end
 
     if new_state == 'hurt' then
-      -- no op
+      sfx(4)
+      vx = hurt_vx * (flipped and 1 or -1)
+      hurt = hurt_max_count
+      iframes = iframes_max_count
     end
 
     state = new_state
@@ -108,6 +117,7 @@ Player = Actor:new({
 
   update = function(_ENV)
     update_inputs(_ENV)
+    iframes = max(iframes - 1, 0)
 
     if state == 'default' then
       state_default(_ENV)
@@ -119,6 +129,8 @@ Player = Actor:new({
       state_jumping(_ENV)
     elseif state == 'falling' then
       state_falling(_ENV)
+    elseif state == 'hurt' then
+      state_hurt(_ENV)
     end
 
     for bullet in all(bullets) do
@@ -128,6 +140,16 @@ Player = Actor:new({
   end,
 
   update_inputs = function(_ENV)
+    if state == 'hurt' then
+      iu = false
+      id = false
+      il = false
+      ir = false
+      io = nil
+      ix = nil
+      return
+    end
+
     iu = btn(⬆️)
     id = btn(⬇️)
     il = btn(⬅️)
@@ -226,23 +248,33 @@ Player = Actor:new({
     coyote_time = max(coyote_time - 1, 0)
   end,
 
-  apply_move_and_collide = function(_ENV)
-    vx = 0
+  -- HURT STATE
+  state_hurt = function(_ENV)
+    apply_move_and_collide(_ENV)
+    hurt = max(hurt - 1, 0)
+    if hurt == 0 then
+      set_state(_ENV, 'falling')
+    end
+  end,
 
+  apply_move_and_collide = function(_ENV)
     if grounded == 'coyote' then
       vy = 0
     else
       vy = min(vy + gravity, vy_max)
     end
 
-    if btn(⬅️) then
-      vx = -speed
-      flipped = true
-    end
-
-    if btn(➡️) then
-      vx = speed
-      flipped = false
+    if il or ir then
+      if il then
+        vx = -speed
+        flipped = true
+      end
+      if ir then
+        vx = speed
+        flipped = false
+      end
+    elseif state != 'hurt' then
+      vx = 0
     end
 
     local new_grounded = nil
@@ -265,6 +297,11 @@ Player = Actor:new({
   end,
 
   -- ACTIONS
+  try_damage = function(_ENV, amount)
+    if iframes > 0 then return false end
+    hp -= amount
+    set_state(_ENV, 'hurt')
+  end,
   try_jump = function(_ENV)
     local will_jump = io == 'down' and grounded
     if will_jump then set_state(_ENV, 'jumping') end
@@ -370,6 +407,20 @@ Player = Actor:new({
       bullet:draw()
     end
 
+    if iframes > 0 and iframes % 4 < 2 then
+      return
+    end
+
+    if state == 'hurt' then
+      if hurt % 10 < 5 then
+        draw_spr(_ENV, 36)
+      else
+        draw_spr(_ENV, 38)
+      end
+
+      return
+    end
+
     if state == 'climbing' then
       draw_climbing(_ENV)
     else
@@ -416,7 +467,8 @@ Player = Actor:new({
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 5, debug_y + 3, 2)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 15)
 
-    print('🅾️: ' .. (io or '-'), 90, 4, 2)
-    print('❎: ' .. (ix or '-'), 90, 10, 2)
+    print('hp: ' .. (hp or '-'), 90, 4, 2)
+    -- print('🅾️: ' .. (io or '-'), 90, 4, 2)
+    -- print('❎: ' .. (ix or '-'), 90, 10, 2)
   end
 })
