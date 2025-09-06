@@ -7,7 +7,10 @@ Enemy = Actor:new({
     hp -= amount
     damage_time = damage_cooldown
     if hp <= 0 then
+      sfx(3)
       del(enemies, _ENV)
+    else
+      sfx(2)
     end
   end
 })
