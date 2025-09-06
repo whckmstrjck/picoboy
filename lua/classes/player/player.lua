@@ -15,8 +15,8 @@ Player = Actor:new({
   hp = 30,
   max_hp = 30,
   hurt = 0,
-  hurt_vx = 0.24,
-  hurt_max_count = 54,
+  hurt_vx = 0.28,
+  hurt_max_count = 48,
   iframes = 0,
   iframes_max_count = 128,
 
@@ -105,7 +105,7 @@ Player = Actor:new({
     end
 
     if new_state == 'hurt' then
-      sfx(4)
+      sfx(4, 3)
       vx = hurt_vx * (flipped and 1 or -1)
       hurt = hurt_max_count
       iframes = iframes_max_count
@@ -325,7 +325,7 @@ Player = Actor:new({
     shooting = max(shooting - 1, 0)
 
     if not (ix == 'down') or #bullets >= bullets_max_count then return end
-    sfx(0)
+    sfx(0, 3)
 
     -- recoil!
     -- x = x + (flipped and 1 or -1)

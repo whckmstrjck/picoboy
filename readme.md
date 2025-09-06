@@ -14,9 +14,9 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
-- [ ] Add nudge "climbing" up ledge
+- [ ] Add simple particle system
 - [ ] Jump buffering
-- [ ] Add particle system
+- [ ] Add nudge "climbing" up ledge
 - [ ] Add edge nudge going up
 - [ ] Moving platforms
 
