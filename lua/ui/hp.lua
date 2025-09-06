@@ -1,17 +1,22 @@
 function draw_hp()
+  local x = 3
+  local y = 23
+  local height = 50
+  local width = 5
+
   local lost_hp = (player.max_hp - player.hp) / player.max_hp
-  local height = flr(lost_hp * 57)
-  local color = lost_hp > .7 and 8 or 0
+  local lost_height = min(flr(lost_hp * 57), height)
+  local bg_color = lost_hp > .7 and 8 or 0
 
   if t() * 2 % 1 < .5 then
-    color = 0
+    bg_color = 0
   end
 
-  rectfill(3, 23, 9, 81, color)
+  rectfill(x, y, x + width, y + height, bg_color)
   fillp(▤)
-  rectfill(4, 24, 8, 80, 15)
-  rectfill(5, 24, 7, 80, 7)
+  rectfill(x + 1, y + 1, x + width - 1, y + height - 1, 15)
+  rectfill(x + 2, y + 1, x + width - 2, y + height - 1, 7)
   fillp()
 
-  rectfill(3, 23, 8, 23 + height, color)
+  rectfill(x, y, x + width, y + lost_height, bg_color)
 end
