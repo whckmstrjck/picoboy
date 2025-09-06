@@ -14,7 +14,6 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
-- [ ] Refactor hp ui
 - [ ] Add nudge "climbing" up ledge
 - [ ] Jump buffering
 - [ ] Add particle system
@@ -23,6 +22,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Done
 
+- [x] Refactor hp ui
 - [x] Add basic ui for hp
 - [x] Add basic enemy w/ goomba-like behaviour
   - [x] Class
