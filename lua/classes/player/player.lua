@@ -8,18 +8,17 @@ Player = Actor:new({
   io = nil, -- down, held, up
   ix = nil, -- down, held, up
 
-  x = 10,
-  y = -15,
+
   width = 5,
   height = 11,
 
   hp = 30,
+  max_hp = 30,
   hurt = 0,
   hurt_vx = 0.24,
   hurt_max_count = 54,
   iframes = 0,
   iframes_max_count = 128,
-
 
   speed = .8,
   jump_force = 2.4,
@@ -466,9 +465,5 @@ Player = Actor:new({
     rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 15)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 5, debug_y + 3, 2)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 15)
-
-    print('hp: ' .. (hp or '-'), 90, 4, 2)
-    -- print('🅾️: ' .. (io or '-'), 90, 4, 2)
-    -- print('❎: ' .. (ix or '-'), 90, 10, 2)
   end
 })
