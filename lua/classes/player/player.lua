@@ -357,12 +357,6 @@ Player = Actor:new({
     if shooting > 0 then
       local arm_cannon_spr = 14
 
-      if shooting > shooting_cooldown - 4 then
-        arm_cannon_spr = 30
-      elseif shooting > shooting_cooldown - 8 then
-        arm_cannon_spr = 31
-      end
-
       local spr_x = x + (flipped and -8 or 5)
       local spr_y = y + 5
 
