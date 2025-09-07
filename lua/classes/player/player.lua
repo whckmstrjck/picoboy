@@ -22,6 +22,8 @@ Player = Actor:new({
 
   speed = .8,
   jump_force = 2.4,
+  jump_buffer = 0,
+  jump_buffer_max = 5,
   climbing = false,
   climbing_y = 0,
   climbing_speed = 0.5,
@@ -44,6 +46,11 @@ Player = Actor:new({
 
     -- DEFAULT
     if new_state == 'default' then
+      if jump_buffer > 0 then
+        jump_buffer = 0
+        set_state(_ENV, 'jumping')
+        return
+      end
       -- no op
     end
 
@@ -234,9 +241,9 @@ Player = Actor:new({
 
   -- FALLING STATE
   state_falling = function(_ENV)
-    if try_jump(_ENV) then
-      return
-    end
+    jump_buffer = max(jump_buffer - 1, 0)
+
+    if try_jump(_ENV) then return end
     if try_climb_up(_ENV) then return end
 
     if grounded and grounded != 'coyote' then
@@ -302,6 +309,9 @@ Player = Actor:new({
     set_state(_ENV, 'hurt')
   end,
   try_jump = function(_ENV)
+    if io == 'down' and state == 'falling' then
+      jump_buffer = jump_buffer_max
+    end
     local will_jump = io == 'down' and grounded
     if will_jump then set_state(_ENV, 'jumping') end
     return will_jump
@@ -455,7 +465,7 @@ Player = Actor:new({
       grounded_str = '█'
     end
 
-    grounded_str = grounded_str .. ' cT: ' .. (coyote_time == 0 and '-' or coyote_time)
+    grounded_str = grounded_str .. ' jB: ' .. (jump_buffer == 0 and '-' or jump_buffer)
 
     rectfill(debug_x + 1, debug_y + 1, debug_x + debug_w + 1, debug_y + debug_h + 1, 2)
     rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 5)
