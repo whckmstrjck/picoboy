@@ -14,13 +14,13 @@ A Mega Man-like code exploration adventure in Pico 8.
 
 ## Todo
 
-- [ ] Add simple particle system
 - [ ] Add nudge "climbing" up ledge
 - [ ] Add edge nudge going up
 - [ ] Moving platforms
 
 ## Done
 
+- [x] Add simple particle system
 - [x] Jump buffering
 - [x] Refactor hp ui
 - [x] Add basic ui for hp
