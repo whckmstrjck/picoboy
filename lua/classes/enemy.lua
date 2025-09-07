@@ -13,9 +13,9 @@ Enemy = Actor:new({
           y = y + flr(height / 2)
         })
       )
-      sfx(3, 3)
+      sfx(3)
     else
-      sfx(2, 3)
+      sfx(2)
     end
   end,
 

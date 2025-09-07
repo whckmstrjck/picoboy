@@ -113,7 +113,7 @@ Player = Actor:new({
 
     -- HURT
     if new_state == 'hurt' then
-      sfx(4, 3)
+      sfx(4)
       vy = -.8
       vx = hurt_vx * (flipped and 1 or -1)
       hurt = hurt_max_count
@@ -337,12 +337,12 @@ Player = Actor:new({
     shooting = max(shooting - 1, 0)
 
     if not (ix == 'down') or #bullets >= bullets_max_count then return end
-    sfx(0, 3)
+    sfx(0)
 
     -- recoil!
     -- x = x + (flipped and 1 or -1)
 
-    local shot_x = x + (flipped and -4 or width + 3)
+    local shot_x = x + (flipped and -2 or width - 3)
     local shot_y = y + (state == 'climbing' and 4 or 5)
 
     add(bullets, Bullet:new({ x = shot_x, y = shot_y, bullets = bullets, flipped = flipped }))
