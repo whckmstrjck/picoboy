@@ -17,6 +17,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 - [ ] Add nudge "climbing" up ledge
 - [ ] Add edge nudge going up
 - [ ] Moving platforms
+- [ ] Drops. Hp? Currency?
 
 ## Done
 
