@@ -7,6 +7,7 @@ function _init()
   })
 
   enemies = {}
+  particles = {}
 
   for i = 1, 5 do
     add(

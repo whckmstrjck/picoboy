@@ -52,16 +52,9 @@ LilBot = Enemy:new({
     return true
   end,
 
-  draw = function(_ENV)
+  draw_enemy = function(_ENV)
     local spr_id = 64
     if (abs(vx) > .1) then spr_id = 66 end
-
-    if damage_time == 0 then
-      draw_spr(_ENV, spr_id)
-    end
-
-    -- draw collider
-
-    -- rect(x, y, x + width - 1, y + height - 1, 7)
+    draw_spr(_ENV, spr_id)
   end
 })

@@ -1,5 +1,5 @@
 function _draw()
-  camera()
+  cam:reset()
 
   draw_sky()
 
@@ -12,6 +12,10 @@ function _draw()
 
   player:draw()
   player:draw_debug()
+
+  for particle in all(particles) do
+    particle:draw()
+  end
 
   cam:reset()
 
