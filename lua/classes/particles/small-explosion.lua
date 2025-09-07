@@ -1,11 +1,9 @@
 SmallExplosion = Particle:new({
-  blobs = {
-    {
-      x = -1,
-      y = -1,
-      start_frame = 0
-    }
-  },
+  ttl = 12,
+
   process_particle = function(_ENV)
+  end,
+  draw = function(_ENV)
+    circfill(x, y, 1 + flr(t / 4), 8)
   end
 })

@@ -7,6 +7,12 @@ Enemy = Actor:new({
     hp -= amount
     damage_time = damage_cooldown
     if hp <= 0 then
+      add(
+        particles, SmallExplosion:new({
+          x = x + flr(width / 2),
+          y = y + flr(height / 2)
+        })
+      )
       sfx(3, 3)
     else
       sfx(2, 3)

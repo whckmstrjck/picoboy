@@ -111,8 +111,10 @@ Player = Actor:new({
       end
     end
 
+    -- HURT
     if new_state == 'hurt' then
       sfx(4, 3)
+      vy = -.8
       vx = hurt_vx * (flipped and 1 or -1)
       hurt = hurt_max_count
       iframes = iframes_max_count
