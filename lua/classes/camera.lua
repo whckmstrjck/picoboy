@@ -9,7 +9,7 @@ Camera = Class:new({
     else
       if target_actor == nil then return end
 
-      x = max(min(target_actor.x - 64, bounds.x_max), bounds.x_min)
+      x = max(min(target_actor.x + flr(target_actor.width / 2) - 64, bounds.x_max), bounds.x_min)
       y = max(min(target_actor.y - 64, bounds.y_max), bounds.y_min)
     end
     camera(x, y)
