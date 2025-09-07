@@ -445,7 +445,7 @@ Player = Actor:new({
     -- draw state and grounded info
     local debug_x = 2
     local debug_y = 108
-    local debug_w = 54
+    local debug_w = 80
     local debug_h = 16
 
     local grounded_str = '…'
@@ -459,7 +459,7 @@ Player = Actor:new({
       grounded_str = '█'
     end
 
-    grounded_str = grounded_str .. ' jB: ' .. (jump_buffer == 0 and '-' or jump_buffer)
+    grounded_str = grounded_str .. ' cT: ' .. (coyote_time == 0 and '-' or coyote_time) .. ' jB: ' .. (jump_buffer == 0 and '-' or jump_buffer)
 
     rectfill(debug_x + 1, debug_y + 1, debug_x + debug_w + 1, debug_y + debug_h + 1, 2)
     rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 5)
@@ -467,7 +467,7 @@ Player = Actor:new({
     rectfill(debug_x + 2, debug_y, debug_x + debug_w, debug_y + debug_h, 3)
     fillp()
     rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 15)
-    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 5, debug_y + 3, 2)
-    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 15)
+    print('gR: ' .. grounded_str .. '\nsTATE: ' .. state, debug_x + 5, debug_y + 3, 2)
+    print('gR: ' .. grounded_str .. '\nsTATE: ' .. state, debug_x + 4, debug_y + 3, 15)
   end
 })
