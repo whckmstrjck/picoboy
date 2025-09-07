@@ -444,7 +444,7 @@ Player = Actor:new({
   draw_debug_static = function(_ENV)
     -- draw state and grounded info
     local debug_x = 2
-    local debug_y = 2
+    local debug_y = 108
     local debug_w = 54
     local debug_h = 16
 
