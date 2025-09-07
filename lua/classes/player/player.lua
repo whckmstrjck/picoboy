@@ -467,7 +467,7 @@ Player = Actor:new({
     rectfill(debug_x + 2, debug_y, debug_x + debug_w, debug_y + debug_h, 3)
     fillp()
     rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 15)
-    print('gR: ' .. grounded_str .. '\nsTATE: ' .. state, debug_x + 5, debug_y + 3, 2)
-    print('gR: ' .. grounded_str .. '\nsTATE: ' .. state, debug_x + 4, debug_y + 3, 15)
+    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 5, debug_y + 3, 2)
+    print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 15)
   end
 })
