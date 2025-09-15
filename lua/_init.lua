@@ -6,6 +6,7 @@ function _init()
     y = -30
   })
 
+  platforms = { Platform:new({ x = 50, y = 20 }) }
   enemies = {}
   particles = {}
 
