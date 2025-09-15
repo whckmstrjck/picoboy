@@ -87,6 +87,7 @@ Player = Actor:new({
     -- DROPPING
     if new_state == 'dropping' then
       grounded = nil
+      vy = gravity * 4 -- bad bad magic no.
       y += 1
     end
 
@@ -99,8 +100,6 @@ Player = Actor:new({
 
     -- FALLING
     if new_state == 'falling' then
-      vy = 1.2
-
       if state == 'default' then
         grounded = 'coyote'
         coyote_time = coyote_frame_count
@@ -234,7 +233,13 @@ Player = Actor:new({
   state_jumping = function(_ENV)
     if try_climb_up(_ENV) then return end
 
-    if vy >= 0 or io != 'held' then
+    if vy >= 0 then
+      vy = 1
+      set_state(_ENV, 'falling')
+    end
+
+    if io != 'held' then
+      vy = .28
       set_state(_ENV, 'falling')
     end
 
@@ -379,7 +384,7 @@ Player = Actor:new({
       spr_id = 2
     end
 
-    if not grounded and state == 'falling' then
+    if not grounded and (state == 'falling' or state == 'dropping') then
       spr_id = 12
     elseif state == 'jumping' then
       spr_id = 10
