@@ -46,6 +46,7 @@ Player = Actor:new({
 
     -- DEFAULT
     if new_state == 'default' then
+      -- needs fix to manage droppingtransition
       if jump_buffer > 0 then
         jump_buffer = 0
         set_state(_ENV, 'jumping')
