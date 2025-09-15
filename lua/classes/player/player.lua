@@ -23,7 +23,7 @@ Player = Actor:new({
   speed = .8,
   jump_force = 2.4,
   jump_buffer = 0,
-  jump_buffer_max = 5,
+  jump_buffer_max = 6,
   climbing = false,
   climbing_y = 0,
   climbing_speed = 0.5,
@@ -46,12 +46,6 @@ Player = Actor:new({
 
     -- DEFAULT
     if new_state == 'default' then
-      -- needs fix to manage droppingtransition
-      if jump_buffer > 0 then
-        jump_buffer = 0
-        set_state(_ENV, 'jumping')
-        return
-      end
       -- no op
     end
 
@@ -185,10 +179,14 @@ Player = Actor:new({
   state_default = function(_ENV)
     if not grounded then
       set_state(_ENV, 'falling')
+      return
     end
 
-    if try_drop(_ENV) then return end
-    if try_jump(_ENV) then return end
+    local buffered_jump = jump_buffer > 0
+    jump_buffer = 0
+
+    if try_drop(_ENV, buffered_jump) then return end
+    if try_jump(_ENV, buffered_jump) then return end
     if try_climb_up(_ENV) then return end
     if try_climb_down(_ENV) then return end
 
@@ -316,16 +314,17 @@ Player = Actor:new({
     hp -= amount
     set_state(_ENV, 'hurt')
   end,
-  try_jump = function(_ENV)
+  try_jump = function(_ENV, buffered_jump)
     if io == 'down' and state == 'falling' then
       jump_buffer = jump_buffer_max
+      return false
     end
-    local will_jump = io == 'down' and grounded
+    local will_jump = (io == 'down' or buffered_jump) and grounded
     if will_jump then set_state(_ENV, 'jumping') end
     return will_jump
   end,
-  try_drop = function(_ENV)
-    local will_drop = io == 'down' and id and grounded == 'semisolid'
+  try_drop = function(_ENV, buffered_jump)
+    local will_drop = (io == 'down' or buffered_jump) and id and grounded == 'semisolid'
     if will_drop then set_state(_ENV, 'dropping') end
     return will_drop
   end,
