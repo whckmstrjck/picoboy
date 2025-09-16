@@ -9,6 +9,7 @@ Actor = Class:new({
   grounded = nil, -- nil, solid, semisolid, ladder
 
   -- collisions
+  platform = nil,
   width = 8,
   height = 8,
   skin_w = 0.4,
@@ -30,9 +31,10 @@ Actor = Class:new({
 
     return not (a.x.max < b.x.min or a.x.min > b.x.max or a.y.max < b.y.min or a.y.min > b.y.max)
   end,
-  collide_point_other = function(_ENV, other, px, py)
-    local collider = other.collider(_ENV)
-    return not (px < collider.x.min or px > collider.x.max or py < collider.y.min or py > collider.y.max)
+  collide_point = function(_ENV, px, py)
+    local coll = collider(_ENV)
+
+    return not (px < coll.x.min or px > coll.x.max or py < coll.y.min or py > coll.y.max)
   end,
   collide_x = function(_ENV)
     local dir = sgn(vx)
@@ -50,13 +52,27 @@ Actor = Class:new({
     end
 
     local hit = nil
+    local platform_hit = nil
     local cel_x = flr(x_check / 8)
 
     for y_check in all(y_checks) do
-      if not hit then
-        local cel_y = flr(y_check / 8)
-        if fget(mget(cel_x, cel_y), 0) then
-          hit = 'solid'
+      for platform in all(platforms) do
+        if not cam:out_of_bounds(platform) then
+          if platform:collide_point(x_check, y_check) then
+            platform_hit = platform
+            break
+          end
+        end
+      end
+    end
+
+    if not platform_hit then
+      for y_check in all(y_checks) do
+        if not hit then
+          local cel_y = flr(y_check / 8)
+          if fget(mget(cel_x, cel_y), 0) then
+            hit = 'solid'
+          end
         end
       end
     end
@@ -64,7 +80,15 @@ Actor = Class:new({
     local new_x = x
     local new_vx = vx
 
-    if hit then
+    if platform_hit then
+      hit = platform_hit.type
+      new_vx = 0
+      if dir < 0 then
+        new_x = platform_hit.x + platform_hit.width
+      else
+        new_x = platform_hit.x - width
+      end
+    elseif hit then
       new_vx = 0
       if dir < 0 then
         new_x = cel_x * 8 + 8
@@ -91,7 +115,19 @@ Actor = Class:new({
     end
 
     local hit = nil
+    local platform_hit = nil
     local cel_y = flr(y_check / 8)
+
+    for x_check in all(x_checks) do
+      for platform in all(platforms) do
+        if not cam:out_of_bounds(platform) then
+          if platform:collide_point(x_check, y_check) then
+            platform_hit = platform
+            break
+          end
+        end
+      end
+    end
 
     for x_check in all(x_checks) do
       local cel_x = flr(x_check / 8)
@@ -113,10 +149,22 @@ Actor = Class:new({
       end
     end
 
+    if hit then platform_hit = nil end
+
     local new_y = y
     local new_vy = vy
 
-    if hit then
+    if platform_hit then
+      hit = platform_hit.type
+      new_vy = 0
+      if dir < 0 then
+        new_y = platform_hit.y + platform_hit.height
+      else
+        new_y = platform_hit.y - height
+        platform = platform_hit
+        add(platform_hit.actors, _ENV)
+      end
+    elseif hit then
       new_vy = 0
       if dir < 0 then
         new_y = cel_y * 8 + 8

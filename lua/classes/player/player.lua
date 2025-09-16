@@ -315,7 +315,7 @@ Player = Actor:new({
     set_state(_ENV, 'hurt')
   end,
   try_jump = function(_ENV, buffered_jump)
-    if io == 'down' and state == 'falling' then
+    if not grounded and io == 'down' and state == 'falling' then
       jump_buffer = jump_buffer_max
       return false
     end
