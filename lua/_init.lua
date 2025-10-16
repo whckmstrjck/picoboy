@@ -7,17 +7,18 @@ function _init()
   })
 
   platforms = { Platform:new({ x = 30, y = 16, moving = true }) }
+  -- platforms = {}
   enemies = {}
   particles = {}
 
-  -- for i = 1, 5 do
-  --   add(
-  --     enemies, LilBot:new({
-  --       x = rnd(140),
-  --       y = rnd(120)
-  --     })
-  --   )
-  -- end
+  for i = 1, 5 do
+    add(
+      enemies, LilBot:new({
+        x = rnd(140),
+        y = rnd(120)
+      })
+    )
+  end
   add(
     enemies, LilBot:new({
       x = 100,

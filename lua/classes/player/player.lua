@@ -453,7 +453,7 @@ Player = Actor:new({
     local debug_x = 2
     local debug_y = 108
     local debug_w = 80
-    local debug_h = 16
+    local debug_h = 17
 
     local grounded_str = '…'
     if grounded == 'ladder' then
@@ -468,12 +468,14 @@ Player = Actor:new({
 
     grounded_str = grounded_str .. ' cT: ' .. (coyote_time == 0 and '-' or coyote_time) .. ' jB: ' .. (jump_buffer == 0 and '-' or jump_buffer)
 
-    rectfill(debug_x + 1, debug_y + 1, debug_x + debug_w + 1, debug_y + debug_h + 1, 2)
-    rectfill(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 5)
+    local radius = 4
+
+    rrectfill(debug_x + 1, debug_y + 1, debug_w + 1, debug_h + 1, radius, 2)
+    rrectfill(debug_x, debug_y, debug_w, debug_h, radius, 5)
     fillp(▤)
-    rectfill(debug_x + 2, debug_y, debug_x + debug_w, debug_y + debug_h, 3)
+    rrectfill(debug_x + 2, debug_y + 1, debug_w - 2, debug_h - 2, radius, 3)
     fillp()
-    rect(debug_x, debug_y, debug_x + debug_w, debug_y + debug_h, 15)
+    rrect(debug_x, debug_y, debug_w, debug_h, radius, 15)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 5, debug_y + 3, 2)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 15)
   end
