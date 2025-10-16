@@ -8,7 +8,6 @@ Player = Actor:new({
   io = nil, -- down, held, up
   ix = nil, -- down, held, up
 
-
   width = 5,
   height = 11,
 
@@ -389,7 +388,7 @@ Player = Actor:new({
     elseif state == 'jumping' then
       spr_id = 10
     else
-      if vx != 0 then
+      if il or ir then
         spr_id = 2
         spr_id += flr((t() * 8 % 3 + 1)) * 2
       end

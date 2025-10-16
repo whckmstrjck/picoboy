@@ -42,6 +42,7 @@ LilBot = Enemy:new({
     y += vy
   end,
   check_edge = function(_ENV)
+    -- must also work with platforms
     local cel_x = flr((x + (flipped and -2 or (width + 1))) / 8)
     local cel_y = flr((y + height + 2) / 8)
 

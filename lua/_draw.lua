@@ -5,10 +5,10 @@ function _draw()
 
   cam:update()
   map()
-
   for platform in all(platforms) do
     platform:draw()
   end
+
   for enemy in all(enemies) do
     enemy:draw()
   end
