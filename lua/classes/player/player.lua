@@ -296,6 +296,10 @@ Player = Actor:new({
     x, vx = collide_x(_ENV)
     y, vy, new_grounded = collide_y(_ENV)
 
+    if current_platform and current_platform.direction == 'horizontal' and state == 'default' then
+      x = flr(x) + current_platform.x % 1
+    end
+
     if coyote_time > 0 then
       grounded = 'coyote'
     else
