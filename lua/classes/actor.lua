@@ -149,7 +149,11 @@ Actor = Class:new({
       end
     end
 
-    if hit then platform_hit = nil end
+    if platform_hit and platform_hit.direction == 'vertical' and platform_hit.dir == -1 then
+      hit = nil
+    elseif hit then
+      platform_hit = nil
+    end
 
     local new_y = y
     local new_vy = vy
@@ -162,7 +166,7 @@ Actor = Class:new({
       else
         new_y = platform_hit.y - height
         platform = platform_hit
-        add(platform_hit.actors, _ENV)
+        add(platform_hit.riders, _ENV)
       end
     elseif hit then
       new_vy = 0

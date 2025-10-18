@@ -42,15 +42,23 @@ LilBot = Enemy:new({
     y += vy
   end,
   check_edge = function(_ENV)
-    -- must also work with platforms
-    local cel_x = flr((x + (flipped and -2 or (width + 1))) / 8)
-    local cel_y = flr((y + height + 2) / 8)
+    local falling_off = true
+    local p = { x = x + (flipped and -2 or (width + 1)), y = y + height + 2 }
+
+    local cel_x = flr(p.x / 8)
+    local cel_y = flr(p.y / 8)
 
     if fget(mget(cel_x, cel_y), 0) or fget(mget(cel_x, cel_y), 2) then
-      return false
+      falling_off = false
     end
 
-    return true
+    for platform in all(G.platforms) do
+      if collide_point(platform, p.x, p.y) then
+        falling_off = false
+      end
+    end
+
+    return falling_off
   end,
 
   draw_enemy = function(_ENV)

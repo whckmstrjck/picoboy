@@ -469,7 +469,7 @@ Player = Actor:new({
 
     local radius = 4
 
-    rrectfill(debug_x + 1, debug_y + 1, debug_w + 1, debug_h + 1, radius, 2)
+    rrectfill(debug_x + 1, debug_y + 1, debug_w, debug_h, radius, 2)
     rrectfill(debug_x, debug_y, debug_w, debug_h, radius, 5)
     fillp(▤)
     rrectfill(debug_x + 2, debug_y + 1, debug_w - 2, debug_h - 2, radius, 3)
