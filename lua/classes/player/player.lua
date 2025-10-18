@@ -83,6 +83,9 @@ Player = Actor:new({
       grounded = nil
       vy = gravity * 4 -- bad bad magic no.
       y += 1
+      if current_platform and current_platform.dir > 0 then
+        y += current_platform.speed * 2
+      end
     end
 
     -- JUMPING

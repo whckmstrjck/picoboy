@@ -76,9 +76,9 @@ Platform = Actor:new({
     riders = {}
   end,
   draw = function(_ENV)
-    for i = 0, width - 8, 8 do
-      spr(type == 'solid' and 130 or 177, x + i, y)
-    end
-    -- rectfill(x, y, x + width - 1, y + height - 1, 5)
+    -- for i = 0, width - 8, 8 do
+    --   spr(type == 'solid' and 130 or 177, x + i, y)
+    -- end
+    rectfill(x, y, x + width - 1, y + height - 1, 5)
   end
 })

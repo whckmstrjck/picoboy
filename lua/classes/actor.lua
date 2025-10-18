@@ -7,6 +7,7 @@ Actor = Class:new({
   vy_max = 4,
   gravity = .14,
   grounded = nil, -- nil, solid, semisolid, ladder
+  current_platform = nil,
 
   -- collisions
   platform = nil,
@@ -100,6 +101,7 @@ Actor = Class:new({
     return new_x, new_vx, hit
   end,
   collide_y = function(_ENV)
+    current_platform = nil
     local dir = sgn(vy)
     local x_checks = {
       x + vx + skin_w,
@@ -173,6 +175,7 @@ Actor = Class:new({
         new_y = platform_hit.y - height
         platform = platform_hit
         add(platform_hit.riders, _ENV)
+        current_platform = platform_hit
       end
     elseif hit then
       new_vy = 0
