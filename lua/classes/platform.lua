@@ -1,24 +1,31 @@
 Platform = Actor:new({
   type = 'solid', -- solid, semisolid
-  moving = false,
   direction = 'vertical', -- horizontal, vertical
+  x = 0,
+  y = 0,
   max_pos = 0,
   min_pos = 0,
-  width = 16,
+  width = 8,
   height = 8,
   riders = {},
   speed = .2,
-  range = 10,
+  range = 0,
   dir = 1,
+  sequence = nil,
+  sequence_index = 1,
+  time_current = 0,
+  time_max = 148,
   new = function(_ENV, tbl)
     tbl = tbl or {}
 
+    time_current = tbl.time_max or time_max
+
     if (tbl.direction or direction) == 'vertical' then
-      tbl.max_pos = tbl.y + (tbl.range or range) * (tbl.dir or dir)
-      tbl.min_pos = tbl.y
+      tbl.max_pos = (tbl.y or y) + (tbl.range or range) * (tbl.dir or dir)
+      tbl.min_pos = (tbl.y or y)
     else
-      tbl.max_pos = tbl.x + (tbl.range or range) * (tbl.dir or dir)
-      tbl.min_pos = tbl.x
+      tbl.max_pos = (tbl.x or x) + (tbl.range or range) * (tbl.dir or dir)
+      tbl.min_pos = (tbl.x or x)
     end
 
     return setmetatable(
@@ -46,39 +53,68 @@ Platform = Actor:new({
     -- end
   end,
   update = function(_ENV)
-    if not moving then return end
-
     local move_amount = speed * dir
 
-    if direction == 'vertical' then
-      y = y + move_amount
-      if y > max_pos or y < min_pos then dir = dir * -1 end
-    else
-      x = x + move_amount
-      if x > max_pos or x < min_pos then dir = dir * -1 end
-    end
+    if sequence != nil then
+      time_current -= 1
 
-    if (direction == 'horizontal' and type == 'solid') then
-      try_push_actor(_ENV, G.player, move_amount)
-      for enemy in all(G.enemies) do
-        try_push_actor(_ENV, enemy, move_amount)
+      if time_current <= 0 then
+        time_current = time_max
+        sequence_index += 1
+        sfx(5)
+        if sequence_index > #sequence then
+          sequence_index = 1
+        end
       end
-    end
 
-    for actor in all(riders) do
+      x = sequence[sequence_index][1]
+      y = sequence[sequence_index][2]
+    elseif range >= 0 then
+      -- log('move')
       if direction == 'vertical' then
-        actor.y = actor.y + move_amount
+        y = y + move_amount
+        if y > max_pos or y < min_pos then dir = dir * -1 end
       else
-        actor.x = actor.x + move_amount
+        x = x + move_amount
+        if x > max_pos or x < min_pos then dir = dir * -1 end
       end
-    end
 
-    riders = {}
+      if (direction == 'horizontal' and type == 'solid') then
+        try_push_actor(_ENV, G.player, move_amount)
+        for enemy in all(G.enemies) do
+          try_push_actor(_ENV, enemy, move_amount)
+        end
+      end
+
+      for actor in all(riders) do
+        if direction == 'vertical' then
+          actor.y = actor.y + move_amount
+        else
+          actor.x = actor.x + move_amount
+        end
+      end
+
+      riders = {}
+    end
   end,
   draw = function(_ENV)
-    for i = 0, width - 8, 8 do
-      spr(type == 'solid' and 130 or 177, x + i, y)
+    local draw = true
+    if sequence != nil then
+      if time_current > (time_max - 6) then
+        pal_set_all(7)
+      end
+      if time_current < 32 then
+        draw = time_current % 4 < 2
+      end
+    end
+
+    if draw then
+      for i = 0, width - 8, 8 do
+        spr(type == 'solid' and 130 or 177, x + i, y)
+      end
     end
     -- rectfill(x, y, x + width - 1, y + height - 1, 5)
+
+    pal()
   end
 })
