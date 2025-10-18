@@ -8,8 +8,8 @@ function _init()
 
   platforms = {
     Platform:new({ x = 40, y = 10, width = 16, range = 20, moving = true }),
-    Platform:new({ x = 64, y = 50, width = 16, moving = true }),
-    Platform:new({ x = 80, y = 10, width = 8, direction = 'horizontal', moving = true })
+    Platform:new({ x = 64, y = 50, width = 16, moving = true, type = 'semisolid' }),
+    Platform:new({ x = 80, y = 10, width = 8, type = 'semisolid', direction = 'horizontal', moving = true })
   }
   -- platforms = {}
   enemies = {}

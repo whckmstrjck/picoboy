@@ -58,7 +58,7 @@ Actor = Class:new({
     for y_check in all(y_checks) do
       for platform in all(platforms) do
         if not cam:out_of_bounds(platform) then
-          if platform:collide_point(x_check, y_check) then
+          if platform.type == 'solid' and platform:collide_point(x_check, y_check) then
             platform_hit = platform
             break
           end
@@ -121,7 +121,13 @@ Actor = Class:new({
     for x_check in all(x_checks) do
       for platform in all(platforms) do
         if not cam:out_of_bounds(platform) then
-          if platform:collide_point(x_check, y_check) then
+          if platform.type == 'solid' and platform:collide_point(x_check, y_check) then
+            platform_hit = platform
+            break
+          elseif platform.type == 'semisolid'
+              and dir > 0
+              and (y + height - 1) < platform.y
+              and platform:collide_point(x_check, y_check) then
             platform_hit = platform
             break
           end

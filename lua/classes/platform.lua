@@ -58,7 +58,7 @@ Platform = Actor:new({
       if x > max_pos or x < min_pos then dir = dir * -1 end
     end
 
-    if (direction == 'horizontal') then
+    if (direction == 'horizontal' and type == 'solid') then
       try_push_actor(_ENV, G.player, move_amount)
       for enemy in all(G.enemies) do
         try_push_actor(_ENV, enemy, move_amount)
@@ -77,7 +77,7 @@ Platform = Actor:new({
   end,
   draw = function(_ENV)
     for i = 0, width - 8, 8 do
-      spr(130, x + i, y)
+      spr(type == 'solid' and 130 or 177, x + i, y)
     end
     -- rectfill(x, y, x + width - 1, y + height - 1, 5)
   end
