@@ -14,7 +14,7 @@ Platform = Actor:new({
   sequence = nil,
   sequence_index = 1,
   time_current = 0,
-  time_max = 148,
+  time_max = 140,
   new = function(_ENV, tbl)
     tbl = tbl or {}
 

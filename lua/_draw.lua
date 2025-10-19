@@ -1,10 +1,9 @@
 function _draw()
   cam:reset()
-
   draw_sky()
-
   cam:update()
   map()
+
   for platform in all(platforms) do
     platform:draw()
   end
