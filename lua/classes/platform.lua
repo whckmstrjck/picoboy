@@ -100,16 +100,22 @@ Platform = Actor:new({
   draw = function(_ENV)
     local draw = true
     if sequence != nil then
-      if time_current > (time_max - 8) then
-        pal_set_all(7)
+      if time_current > (time_max - 16) then
+        pal(12, 15)
+        pal(2, 8)
+        pal(13, 12)
       end
-      if time_current > (time_max - 4) then
-        pal_set_all(2)
+      if time_current > (time_max - 12) then
+        pal_set_all(7)
       end
 
       if time_current < 16 then
-        pal_set_all(8)
-        draw = time_current % 4 < 2
+        pal(12, 2)
+        pal(13, 2)
+        pal(7, 8)
+        if (time_current % 4 < 2) then
+          draw = false
+        end
       end
     end
 
@@ -120,7 +126,28 @@ Platform = Actor:new({
     end
 
     -- rectfill(x, y, x + width - 1, y + height - 1, 5)
-
     pal()
+
+    if sequence == nil then return end
+
+    for i = 1, #sequence do
+      if i != sequence_index then
+        -- print(i, sequence[i][1] + width / 2 - 2, sequence[i][2] + height / 2 - 3, 5)
+        pset(sequence[i][1], sequence[i][2], 5)
+        pset(sequence[i][1], sequence[i][2] + height - 1, 5)
+        pset(sequence[i][1] + width - 1, sequence[i][2], 5)
+        pset(sequence[i][1] + width - 1, sequence[i][2] + height - 1, 5)
+
+        pset(sequence[i][1] + 1, sequence[i][2], 5)
+        pset(sequence[i][1], sequence[i][2] + 1, 5)
+        pset(sequence[i][1] + width - 2, sequence[i][2], 5)
+        pset(sequence[i][1] + width - 1, sequence[i][2] + 1, 5)
+
+        pset(sequence[i][1], sequence[i][2] + height - 2, 5)
+        pset(sequence[i][1] + 1, sequence[i][2] + height - 1, 5)
+        pset(sequence[i][1] + width - 1, sequence[i][2] + height - 2, 5)
+        pset(sequence[i][1] + width - 2, sequence[i][2] + height - 1, 5)
+      end
+    end
   end
 })
