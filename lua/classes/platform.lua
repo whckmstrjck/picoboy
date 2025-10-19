@@ -107,7 +107,7 @@ Platform = Actor:new({
         pal_set_all(2)
       end
 
-      if time_current < 32 then
+      if time_current < 16 then
         pal_set_all(8)
         draw = time_current % 4 < 2
       end
@@ -118,6 +118,7 @@ Platform = Actor:new({
         spr(type == 'solid' and 132 or 148, x + i, y)
       end
     end
+
     -- rectfill(x, y, x + width - 1, y + height - 1, 5)
 
     pal()
