@@ -218,7 +218,18 @@ Player = Actor:new({
 
     if shooting == 0 then
       if iu then
-        y -= climbing_speed
+        -- yanky but works
+        local can_climb = true
+        local cel_x = flr((x + width / 2) / 8)
+        local cel_y = flr((y - 2) / 8)
+        if fget(mget(cel_x, cel_y), 0) then
+          can_climb = false
+          y = cel_y * 8 + 9
+        end
+
+        if can_climb then
+          y -= climbing_speed
+        end
       elseif id then
         y += climbing_speed
       end

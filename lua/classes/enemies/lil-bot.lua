@@ -3,7 +3,7 @@ LilBot = Enemy:new({
   height = 11,
   spr_offset = { default = { x = -6, y = -4 }, flipped = { x = -6, y = -4 } },
   spr_size = { x = 2, y = 2 },
-  hp = 6,
+  hp = 4,
   damage_power = 4,
 
   speed = 0.3,
