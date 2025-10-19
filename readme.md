@@ -19,7 +19,7 @@ A Mega Man-like code exploration adventure in Pico 8.
 - [ ] Add y nudge "climbing" up ledge
 - [ ] Add x edge nudge going up
 - [ ] Drops. Hp? Currency?
-- [ ] More generous semisolid/ladder detection?
+- [?] More generous semisolid/ladder detection?
 
 ## Done
 
