@@ -100,17 +100,22 @@ Platform = Actor:new({
   draw = function(_ENV)
     local draw = true
     if sequence != nil then
-      if time_current > (time_max - 6) then
+      if time_current > (time_max - 8) then
         pal_set_all(7)
       end
+      if time_current > (time_max - 4) then
+        pal_set_all(2)
+      end
+
       if time_current < 32 then
+        pal_set_all(8)
         draw = time_current % 4 < 2
       end
     end
 
     if draw then
       for i = 0, width - 8, 8 do
-        spr(type == 'solid' and 130 or 177, x + i, y)
+        spr(type == 'solid' and 132 or 148, x + i, y)
       end
     end
     -- rectfill(x, y, x + width - 1, y + height - 1, 5)

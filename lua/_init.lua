@@ -7,10 +7,10 @@ function _init()
   })
 
   platforms = {
-    Platform:new({ sequence = { { 48, 64 }, { 64, 40 }, { 48, 24 } } })
+    Platform:new({ width = 24, sequence = { { 48, 64 }, { 64, 40 }, { 48, 24 } } }),
     -- Platform:new({ x = 40, y = 10, width = 16, range = 20 }),
     -- Platform:new({ x = 64, y = 24, width = 16, range = 44, type = 'semisolid' }),
-    -- Platform:new({ x = 80, y = 16, width = 8, range = 48, type = 'solid', direction = 'horizontal', moving = true })
+    Platform:new({ x = 80, y = 16, width = 8, range = 3 * 8, type = 'solid', direction = 'horizontal', moving = true })
   }
   -- platforms = {}
   enemies = {}
