@@ -113,6 +113,7 @@ Platform = Actor:new({
         pal(2, 0)
         pal(12, 2)
         pal(13, 2)
+        pal(15, 8)
         pal(7, 8)
         if (time_current % 4 < 2) then
           draw = false
@@ -122,8 +123,12 @@ Platform = Actor:new({
 
     if draw then
       for i = 0, width - 8, 8 do
-        for j = 0, height - 8, 8 do
-          spr(type == 'solid' and 132 or 148, x + i, y + j)
+        if type == 'solid' then
+          for j = 0, height - 8, 8 do
+            spr(132, x + i, y + j)
+          end
+        else
+          spr(148, x + i, y)
         end
       end
     end
