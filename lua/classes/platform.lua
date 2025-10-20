@@ -110,6 +110,7 @@ Platform = Actor:new({
       end
 
       if time_current < 16 then
+        pal(2, 0)
         pal(12, 2)
         pal(13, 2)
         pal(7, 8)
@@ -121,7 +122,9 @@ Platform = Actor:new({
 
     if draw then
       for i = 0, width - 8, 8 do
-        spr(type == 'solid' and 132 or 148, x + i, y)
+        for j = 0, height - 8, 8 do
+          spr(type == 'solid' and 132 or 148, x + i, y + j)
+        end
       end
     end
 
