@@ -5,6 +5,9 @@ __lua__
 #include lua/_update60.lua
 #include lua/_draw.lua
 
+#include lua/state/stages/stages.lua
+#include lua/state/stages/stage_1.lua
+#include lua/state/state.lua
 #include lua/ui/ui.lua
 #include lua/ui/hp.lua
 

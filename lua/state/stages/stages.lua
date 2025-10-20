@@ -1,0 +1,3 @@
+stages = {
+  stage_1
+}
