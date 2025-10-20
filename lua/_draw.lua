@@ -1,5 +1,5 @@
 function _draw()
-  cam:reset()
+  -- cam:reset() -- not sure if needed
   draw_sky()
   cam:update()
   map()

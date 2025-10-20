@@ -105,7 +105,7 @@ Platform = Actor:new({
         pal(2, 8)
         pal(13, 12)
       end
-      if time_current > (time_max - 12) then
+      if time_current > (time_max - 8) then
         pal_set_all(7)
       end
 
