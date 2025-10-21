@@ -7,10 +7,11 @@ function _init()
   })
 
   platforms = {
-    Platform:new({ type = 'semisolid', width = 16, height = 5, sequence = { { 48, 64 }, { 64, 40 }, { 48, 24 } } }),
+    Platform:new({ type = 'solid', width = 16, height = 16, sequence = { { 48, 56 }, { 64, 40 }, { 48, 24 } } }),
     -- Platform:new({ x = 40, y = 10, width = 16, range = 20 }),
     -- Platform:new({ x = 64, y = 24, width = 16, range = 44, type = 'semisolid' }),
-    Platform:new({ x = 80, y = 16, width = 8, range = 3 * 8, type = 'solid', direction = 'horizontal', moving = true })
+    Platform:new({ x = 80, y = 16, width = 8, range = 3 * 8, type = 'solid', direction = 'horizontal', moving = true }),
+    Platform:new({ x = 16 * 8, y = 16, width = 8 * 2, range = 6 * 8, type = 'solid', direction = 'vertical', moving = true })
   }
   -- platforms = {}
   enemies = {}
@@ -26,6 +27,12 @@ function _init()
   add(
     enemies, LilBot:new({
       x = 100,
+      y = 1
+    })
+  )
+  add(
+    enemies, LilBot:new({
+      x = 140,
       y = 1
     })
   )

@@ -99,6 +99,8 @@ Platform = Actor:new({
   end,
   draw = function(_ENV)
     local draw = true
+    local x_offset = 0
+
     if sequence != nil then
       if time_current > (time_max - 16) then
         pal(12, 15)
@@ -109,12 +111,17 @@ Platform = Actor:new({
         pal_set_all(7)
       end
 
-      if time_current < 16 then
-        pal(2, 0)
-        pal(12, 2)
-        pal(13, 2)
-        pal(15, 8)
-        pal(7, 8)
+      if time_current < 24 then
+        if time_current < 8 then
+          pal_set_all(2)
+        else
+          pal(2, 0)
+          pal(12, 2)
+          pal(13, 2)
+          pal(15, 8)
+          pal(7, 8)
+        end
+
         if (time_current % 4 < 2) then
           draw = false
         end
@@ -125,10 +132,10 @@ Platform = Actor:new({
       for i = 0, width - 8, 8 do
         if type == 'solid' then
           for j = 0, height - 8, 8 do
-            spr(132, x + i, y + j)
+            spr(132, x + i + x_offset, y + j)
           end
         else
-          spr(148, x + i, y)
+          spr(148, x + i + x_offset, y)
         end
       end
     end
