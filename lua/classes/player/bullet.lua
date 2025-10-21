@@ -2,10 +2,12 @@ Bullet = Actor:new({
   width = 5,
   height = 3,
   vx = 2.8,
+  damage = 1,
   spr_offset = {
     default = { x = 0, y = 0 },
     flipped = { x = -3, y = 0 }
   },
+  spr_id = 15,
 
   flipped = false,
 
@@ -19,7 +21,7 @@ Bullet = Actor:new({
     check_enemy_hit(_ENV)
   end,
   draw = function(_ENV)
-    draw_spr(_ENV, 15)
+    draw_spr(_ENV, spr_id)
   end,
   destroy = function(_ENV)
     del(bullets, _ENV)
@@ -27,7 +29,8 @@ Bullet = Actor:new({
   check_enemy_hit = function(_ENV)
     for enemy in all(enemies) do
       if not cam:out_of_bounds(enemy) and collide_other(_ENV, enemy) and enemy.hp > 0 then
-        enemy:damage(1)
+        log(damage)
+        enemy:damage(damage)
         destroy(_ENV)
         break
       end

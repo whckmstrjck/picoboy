@@ -34,6 +34,9 @@ Player = Actor:new({
 
   shooting = 0,
   shooting_cooldown = 26,
+  charge = 0,
+  charge_threshold = 112,
+  charge_max = 192,
   bullets = {},
   bullets_max_count = 3,
 
@@ -110,6 +113,7 @@ Player = Actor:new({
     -- HURT
     if new_state == 'hurt' then
       sfx(4)
+
       vy = -.8
       vx = hurt_vx * (flipped and 1 or -1)
       hurt = hurt_max_count
@@ -122,6 +126,13 @@ Player = Actor:new({
   update = function(_ENV)
     update_inputs(_ENV)
     iframes = max(iframes - 1, 0)
+
+    if charge == 0 and ix == 'down' then
+      charge = 1
+    end
+    if charge > 0 and ix == 'held' then
+      charge = min(ix == 'held' and charge + 1 or 0, charge_max)
+    end
 
     if state == 'default' then
       state_default(_ENV)
@@ -145,12 +156,8 @@ Player = Actor:new({
 
   update_inputs = function(_ENV)
     if state == 'hurt' then
-      iu = false
-      id = false
       il = false
       ir = false
-      io = nil
-      ix = nil
       return
     end
 
@@ -356,18 +363,31 @@ Player = Actor:new({
     return will_climb_down
   end,
   try_shoot = function(_ENV)
+    local bullet = Bullet
     shooting = max(shooting - 1, 0)
 
-    if not (ix == 'down') or #bullets >= bullets_max_count then return end
-    sfx(0)
+    if #bullets >= bullets_max_count then return end
 
-    -- recoil!
-    -- x = x + (flipped and 1 or -1)
+    if ix != 'down' and ix != 'up' then return end
+    if ix == 'up' and charge < 60 then
+      charge = 0 return
+    end
+
+    if ix == 'up' then
+      if charge == charge_max then
+        bullet = BulletLg
+      elseif charge > charge_threshold then
+        bullet = BulletMd
+      end
+      charge = 0
+    end
+
+    sfx(0)
 
     local shot_x = x + (flipped and -2 or width - 3)
     local shot_y = y + (state == 'climbing' and 4 or 5)
 
-    add(bullets, Bullet:new({ x = shot_x, y = shot_y, bullets = bullets, flipped = flipped }))
+    add(bullets, bullet:new({ x = shot_x, y = shot_y, bullets = bullets, flipped = flipped }))
     shooting = shooting_cooldown
   end,
 
@@ -448,6 +468,19 @@ Player = Actor:new({
       return
     end
 
+    if charge > charge_threshold and charge != charge_max then
+      if (t() * 60) % 10 < 5 then
+        pal(8, 14)
+        pal(14, 10)
+      end
+    elseif charge == charge_max then
+      if (t() * 60) % 6 < 3 then
+        pal(2, 14)
+        pal(8, 10)
+        pal(14, 7)
+      end
+    end
+
     if state == 'climbing' then
       draw_climbing(_ENV)
     else
@@ -455,6 +488,8 @@ Player = Actor:new({
     end
 
     draw_cannon(_ENV)
+
+    pal()
   end,
 
   -- DEBUG DRAW METHODS
@@ -469,7 +504,7 @@ Player = Actor:new({
     -- draw state and grounded info
     local debug_x = 2
     local debug_y = 108
-    local debug_w = 80
+    local debug_w = 88
     local debug_h = 17
 
     local grounded_str = '…'
@@ -495,5 +530,7 @@ Player = Actor:new({
     rrect(debug_x, debug_y, debug_w, debug_h, radius, 15)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 5, debug_y + 3, 2)
     print('gR: ' .. grounded_str .. '\nsT: ' .. state, debug_x + 4, debug_y + 3, 15)
+    print('cH: ' .. charge, debug_x + 57, debug_y + 9, 2)
+    print('cH: ' .. charge, debug_x + 56, debug_y + 9, 15)
   end
 })
