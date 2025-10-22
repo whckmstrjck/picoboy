@@ -112,8 +112,9 @@ Platform = Actor:new({
       end
 
       if time_current < 24 then
-        if time_current < 8 then
+        if time_current < 12 then
           pal_set_all(2)
+          x_offset = rnd() * 6 - 3
         else
           pal(2, 0)
           pal(12, 2)

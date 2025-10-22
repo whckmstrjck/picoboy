@@ -35,7 +35,7 @@ Player = Actor:new({
   shooting = 0,
   shooting_cooldown = 26,
   charge = 0,
-  charge_threshold = 112,
+  charge_threshold = 70,
   charge_max = 192,
   bullets = {},
   bullets_max_count = 3,
@@ -132,6 +132,12 @@ Player = Actor:new({
     end
     if charge > 0 and ix == 'held' then
       charge = min(ix == 'held' and charge + 1 or 0, charge_max)
+      if charge == charge_threshold then
+        sfx(6, 3)
+      end
+      if charge == charge_max - 1 then
+        sfx(7, 3)
+      end
     end
 
     if state == 'default' then
@@ -379,6 +385,7 @@ Player = Actor:new({
       elseif charge > charge_threshold then
         bullet = BulletMd
       end
+      sfx(-1, 3)
       charge = 0
     end
 
@@ -474,9 +481,14 @@ Player = Actor:new({
         pal(14, 10)
       end
     elseif charge == charge_max then
-      if (t() * 60) % 6 < 3 then
+      local mod = (t() * 60) % 6
+      if mod < 2 then
         pal(2, 14)
         pal(8, 10)
+        pal(14, 7)
+      elseif mod < 4 then
+        pal(2, 8)
+        pal(8, 7)
         pal(14, 7)
       end
     end

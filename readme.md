@@ -15,15 +15,15 @@ A Mega Man-like code exploration adventure in Pico 8.
 ## Todo
 
 - [ ] Refactor platform.lua, and explicit behaviour types
-- [ ] Charge shot
 - [ ] Solve dynamic map entities, events, areas
 - [ ] Add y nudge "climbing" up ledge
 - [ ] Add x edge nudge going up
 - [ ] Drops. Hp? Currency?
-- [?] More generous semisolid/ladder detection?
+- [ ] More generous semisolid/ladder detection?
 
 ## Done
 
+- [x] Charge shot
 - [x] Platform detection not in tilemap
   - [x] Moving platforms
   - [x] Disappearing platforms

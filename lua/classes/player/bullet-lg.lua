@@ -8,10 +8,10 @@ BulletLg = Bullet:new({
   },
   spr_id = 31,
   draw = function(_ENV)
-    if (t() * 60) % 10 < 5 then
-      pal(7, 9)
-      pal(15, 10)
-      pal(14, 8)
+    if (t() * 60) % 6 < 3 then
+      pal(7, 12)
+      pal(15, 13)
+      pal(14, 1)
     end
     draw_spr(_ENV, spr_id)
     pal()
