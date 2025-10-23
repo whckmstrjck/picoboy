@@ -6,6 +6,8 @@ function _init()
     y = -30
   })
 
+  -- music(0)
+
   platforms = {
     Platform:new({ type = 'semisolid', width = 16, height = 5, sequence = { { 48, 56 }, { 64, 40 }, { 48, 24 } } }),
     -- Platform:new({ x = 40, y = 10, width = 16, range = 20 }),

@@ -13,7 +13,7 @@ BulletLg = Bullet:new({
       pal(15, 13)
       pal(14, 1)
     end
-    draw_spr(_ENV, spr_id)
+    draw_spr(_ENV, spr_id, { x = 10, y = 14 })
     pal()
   end
 })

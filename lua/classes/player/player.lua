@@ -375,7 +375,7 @@ Player = Actor:new({
     if #bullets >= bullets_max_count then return end
 
     if ix != 'down' and ix != 'up' then return end
-    if ix == 'up' and charge < 60 then
+    if ix == 'up' and charge < charge_threshold then
       charge = 0 return
     end
 
